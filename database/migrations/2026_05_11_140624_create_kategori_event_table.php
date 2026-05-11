@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kategori_event_models', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+        Schema::create('kategori_event', function (Blueprint $table) {
+    $table->increments('id');
+    $table->string('nama_kategori', 100);
+});
     }
 
     /**
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kategori_event_models');
+        Schema::dropIfExists('kategori_event');
     }
 };
