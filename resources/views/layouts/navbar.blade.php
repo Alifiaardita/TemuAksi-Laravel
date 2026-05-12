@@ -4,13 +4,22 @@
             <h1 class="text-2xl font-bold text-cornflower">TemuAksi</h1>
         </div>
 
+        @guest
+        <nav class="space-x-8 hidden md:block">
+            <a href="{{ route('home') }}" class="hover:text-white transition">Home</a>
+            <a href="{{ route('login') }}" class="hover:text-white transition">Explore Event</a>
+            <a href="{{ route('login') }}" class="hover:text-white transition">Riwayat</a>
+            <a href="{{ route('login') }}" class="hover:text-white transition">Volunteer</a>
+        </nav>
+        @endguest
+
         @auth
             @if(auth()->user()->isPerusahaan())
                 <nav class="space-x-6 hidden md:block">
                     <a href="{{ route('perusahaan.dashboard') }}" class="hover:text-mist">Home</a>
                     <a href="{{ route('perusahaan.proposal.index') }}" class="hover:text-mist">Daftar Proposal</a>
                     <a href="{{ route('perusahaan.volunteer.index') }}" class="hover:text-mist">Volunteer</a>
-                    <a href="{{ route('perusahaan.faq') }}" class="hover:text-mist">FAQ</a>
+                    {{-- <a href="{{ route('perusahaan.faq') }}" class="hover:text-mist">FAQ</a> --}}
                 </nav>
             @elseif(auth()->user()->isAdmin())
                 <nav class="space-x-6 hidden md:block">
@@ -24,7 +33,7 @@
                     <a href="{{ route('explore.index') }}" class="hover:text-white transition">Explore Event</a>
                     <a href="{{ route('proposal.riwayat') }}" class="hover:text-white transition">Riwayat</a>
                     <a href="{{ route('volunteer.index') }}" class="hover:text-white transition">Volunteer</a>
-                    <a href="{{ route('faq') }}" class="hover:text-white transition">FAQ</a>
+                    {{-- <a href="{{ route('faq') }}" class="hover:text-white transition">FAQ</a> --}}
                 </nav>
             @endif
         @endauth

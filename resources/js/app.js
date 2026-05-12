@@ -1,13 +1,11 @@
 import './bootstrap';
-//DROPDOWN
-function toggleDropdown() {
-  const dropdown = document.getElementById("dropdown");
-  if (dropdown) {
-    dropdown.classList.toggle("hidden");
-  }
-}
 
-// klik luar dropdown (auto close)
+// DROPDOWN
+window.toggleDropdown = function () {
+  const dropdown = document.getElementById("dropdown");
+  if (dropdown) dropdown.classList.toggle("hidden");
+};
+
 window.addEventListener("click", function (e) {
   if (!e.target.closest(".relative")) {
     const dropdown = document.getElementById("dropdown");
@@ -15,127 +13,75 @@ window.addEventListener("click", function (e) {
   }
 });
 
+// MODAL DETAIL
+window.lihatDetail = function (
+  id, perusahaan, judul, deskripsi, kategori, lokasi, tanggal, target, status
+) {
+  const modal = document.getElementById("modalDetail");
 
-//MODAL
-function lihatDetail(id, perusahaan, judul, deskripsi, kategori, lokasi, tanggal, target, status) {
+  if (!modal) return;
 
-  // HALAMAN RIWAYAT
-  if (document.getElementById("dPerusahaan")) {
-    document.getElementById("dPerusahaan").innerText = perusahaan;
-    document.getElementById("dJudul").innerText = judul;
-    document.getElementById("dDeskripsi").innerText = deskripsi;
-    document.getElementById("dKategori").innerText = kategori;
-    document.getElementById("dLokasi").innerText = lokasi;
-    document.getElementById("dTanggal").innerText = tanggal;
-    document.getElementById("dTarget").innerText = target;
+  document.getElementById("dPerusahaan").innerText = perusahaan;
+  document.getElementById("dJudul").innerText = judul;
+  document.getElementById("dDeskripsi").innerText = deskripsi;
+  document.getElementById("dKategori").innerText = kategori;
+  document.getElementById("dLokasi").innerText = lokasi;
+  document.getElementById("dTanggal").innerText = tanggal;
+  document.getElementById("dTarget").innerText = target;
 
-    let mouHTML = "";
+  let mouHTML = "";
 
-    if (status.trim().toLowerCase() === "selesai") {
-      mouHTML = `
-        <a href="../pdf/generate-mou.php?id=${id}"
-           target="_blank"
-           class="inline-block mt-4 bg-green-600 text-white px-4 py-2 rounded-lg">
-           📄 Download MOU
-        </a>
-      `;
-    }
-
-    document.getElementById("mouArea").innerHTML = mouHTML;
-
-    const modal = document.getElementById("modalDetail");
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
+  if (status?.trim().toLowerCase() === "selesai") {
+    mouHTML = `
+      <a href="/pdf/generate-mou/${id}"
+         target="_blank"
+         class="inline-block mt-4 bg-green-600 text-white px-4 py-2 rounded-lg">
+         📄 Download MOU
+      </a>
+    `;
   }
 
-  // HALAMAN PERUSAHAAN
-  if (document.getElementById("dEmail")) {
-    document.getElementById("dEmail").innerText = perusahaan;
-    document.getElementById("dJudul").innerText = judul;
-    document.getElementById("dDeskripsi").innerText = deskripsi;
-    document.getElementById("dKategori").innerText = kategori;
-    document.getElementById("dLokasi").innerText = lokasi;
-    document.getElementById("dTanggal").innerText = tanggal;
-    document.getElementById("dTarget").innerText = target;
+  document.getElementById("mouArea").innerHTML = mouHTML;
 
-    let actionHTML = "";
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+};
 
-    status = status.toLowerCase().trim();
+// PDF MODAL
+window.lihatPDF = function (file) {
+  const modal = document.getElementById("modalPDF");
+  const frame = document.getElementById("pdfFrame");
 
-    if (status === "terkirim") {
-      actionHTML = `
-        <div class="flex gap-2">
-          <a href="update-status.php?id=${id}&status=pendanaan"
-             class="bg-green-500 text-white px-3 py-1 rounded">
-             Terima
-          </a>
+  if (!modal || !frame) return;
 
-          <a href="hapus-proposal.php?id=${id}"
-             class="bg-red-600 text-white px-3 py-1 rounded"
-             onclick="return confirm('Yakin ingin menolak & menghapus proposal?')">
-             Tolak
-          </a>
-        </div>
-      `;
-    }
-    else if (status === "pendanaan") {
-      actionHTML = `
-        <a href="form-pendanaan.php?id=${id}"
-           class="bg-blue-600 text-white px-3 py-1 rounded">
-           💰 Isi Pendanaan
-        </a>
-      `;
-    }
-    else if (status === "selesai") {
-      actionHTML = `
-        <a href="../pdf/generate-mou.php?id=${id}"
-           class="bg-purple-600 text-white px-3 py-1 rounded">
-           📄 Generate MOU
-        </a>
-      `;
-    }
-    else {
-      actionHTML = `<span class="text-gray-500">Tidak ada aksi</span>`;
-    }
+  frame.src = "/storage/proposals/" + file + "#toolbar=1";
 
-    document.getElementById("actionArea").innerHTML = actionHTML;
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+};
 
-    const modal = document.getElementById("modal");
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
-  }
-}
+window.closePDF = function () {
+  const modal = document.getElementById("modalPDF");
+  const frame = document.getElementById("pdfFrame");
 
-function lihatPDF(file) {
-    const modal = document.getElementById("modalPDF");
-    const frame = document.getElementById("pdfFrame");
-
-    // 👇 INI YANG KAMU TAMBAH
-    frame.src = "../uploads/" + file + "#toolbar=1";
-
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
-}
-
-function closePDF() {
-    const modal = document.getElementById("modalPDF");
-    const frame = document.getElementById("pdfFrame");
-
-    frame.src = "";
+  if (frame) frame.src = "";
+  if (modal) {
     modal.classList.add("hidden");
-}
+    modal.classList.remove("flex");
+  }
+};
 
-//CLOSE MODAL
-function closeModal() {
+window.closeModal = function () {
   const modal1 = document.getElementById("modalDetail");
+  const modal2 = document.getElementById("modal");
+
   if (modal1) {
     modal1.classList.add("hidden");
     modal1.classList.remove("flex");
   }
 
-  const modal2 = document.getElementById("modal");
   if (modal2) {
     modal2.classList.add("hidden");
     modal2.classList.remove("flex");
   }
-}
+};

@@ -9,17 +9,24 @@ use Illuminate\Support\Facades\Auth;
 class RoleMiddleware
 {
     public function handle(Request $request, Closure $next, ...$roles)
-    {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-
-        $user = Auth::user();
-
-        if (!in_array($user->role, $roles)) {
-            abort(403, 'Akses ditolak');
-        }
-
-        return $next($request);
+{
+//      dd([
+//     'user' => Auth::user(),
+//     'role_direct' => Auth::user()->role,
+//     'role_relation' => Auth::user()->role->name ?? null,
+// ]);
+    if (!Auth::check()) {
+        return redirect()->route('login');
     }
+
+    $userRole = strtolower(trim(Auth::user()->role));
+
+    $roles = array_map(fn($r) => strtolower(trim($r)), $roles);
+
+    if (!in_array($userRole, $roles)) {
+        abort(403, 'Akses ditolak');
+    }
+
+    return $next($request);
+}
 }

@@ -23,10 +23,16 @@ use App\Http\Controllers\Volunteer\ManageKegiatanController;
 
 /*
 |--------------------------------------------------------------------------
-| Guest Routes
+| HOME (GUEST LANDING PAGE)
 |--------------------------------------------------------------------------
 */
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
+/*
+|--------------------------------------------------------------------------
+| AUTH (GUEST ONLY)
+|--------------------------------------------------------------------------
+*/
 Route::middleware('guest')->group(function () {
 
     Route::get('/login', [LoginController::class, 'showForm'])->name('login');
@@ -38,46 +44,42 @@ Route::middleware('guest')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Logout
+| LOGOUT
 |--------------------------------------------------------------------------
 */
-
 Route::post('/logout', [LoginController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 
 /*
 |--------------------------------------------------------------------------
-| Authenticated User
+| PUBLIC EXPLORE (BISA TANPA LOGIN)
 |--------------------------------------------------------------------------
 */
+Route::prefix('explore')->group(function () {
 
+    Route::get('/', [ExploreController::class, 'index'])
+        ->name('explore.index');
+
+    Route::get('/kategori/{id}', [ExploreController::class, 'kategori'])
+        ->name('explore.kategori');
+
+    Route::get('/sponsor/{id}', [ExploreController::class, 'detailSponsor'])
+        ->name('explore.sponsor');
+});
+
+/*
+|--------------------------------------------------------------------------
+| AUTH USER AREA
+|--------------------------------------------------------------------------
+*/
 Route::middleware('auth')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Home Organizer
+    | ORGANIZER
     |--------------------------------------------------------------------------
     */
-
-    Route::get('/', [HomeController::class, 'index'])->name('home');
-
-    /*
-    |--------------------------------------------------------------------------
-    | Explore Sponsor
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get('/explore', [ExploreController::class, 'index'])->name('explore.index');
-    Route::get('/explore/kategori/{id}', [ExploreController::class, 'kategori'])->name('explore.kategori');
-    Route::get('/explore/sponsor/{id}', [ExploreController::class, 'detailSponsor'])->name('explore.sponsor');
-
-    /*
-    |--------------------------------------------------------------------------
-    | Organizer Profile
-    |--------------------------------------------------------------------------
-    */
-
     Route::middleware('role:organizer')->group(function () {
 
         Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
@@ -85,141 +87,117 @@ Route::middleware('auth')->group(function () {
 
         /*
         |--------------------------------------------------------------------------
-        | Proposal
+        | PROPOSAL
         |--------------------------------------------------------------------------
         */
+        Route::get('/proposal/buat/{sponsor_id}', [ProposalController::class, 'create'])
+            ->name('proposal.create');
 
-        Route::get('/proposal/buat/{sponsor_id}', [ProposalController::class, 'create'])->name('proposal.create');
-        Route::post('/proposal/buat', [ProposalController::class, 'store'])->name('proposal.store');
+        Route::post('/proposal/buat', [ProposalController::class, 'store'])
+            ->name('proposal.store');
 
-        Route::get('/proposal/riwayat', [ProposalController::class, 'riwayat'])->name('proposal.riwayat');
+        Route::get('/proposal/riwayat', [ProposalController::class, 'riwayat'])
+            ->name('proposal.riwayat');
 
-        Route::get('/proposal/edit/{id}', [ProposalController::class, 'edit'])->name('proposal.edit');
-        Route::post('/proposal/edit/{id}', [ProposalController::class, 'update'])->name('proposal.update');
+        Route::get('/proposal/edit/{id}', [ProposalController::class, 'edit'])
+            ->name('proposal.edit');
 
-        Route::get('/proposal/hapus/{id}', [ProposalController::class, 'destroy'])->name('proposal.destroy');
+        Route::post('/proposal/edit/{id}', [ProposalController::class, 'update'])
+            ->name('proposal.update');
 
-        Route::get('/faq', function () {
-            return view('organizer.faq');
-        })->name('faq');
+        Route::delete('/proposal/{id}', [ProposalController::class, 'destroy'])
+            ->name('proposal.destroy');
 
         /*
         |--------------------------------------------------------------------------
-        | Volunteer User
+        | VOLUNTEER
         |--------------------------------------------------------------------------
         */
+        Route::get('/volunteer', [VolunteerController::class, 'index'])
+            ->name('volunteer.index');
 
-        Route::get('/volunteer', [VolunteerController::class, 'index'])->name('volunteer.index');
-        Route::get('/volunteer/{id}', [VolunteerController::class, 'detail'])->name('volunteer.detail');
+        Route::get('/volunteer/{id}', [VolunteerController::class, 'detail'])
+            ->name('volunteer.detail');
 
-        Route::post('/volunteer/{id}/daftar', [VolunteerController::class, 'daftar'])->name('volunteer.daftar');
+        Route::post('/volunteer/{id}/daftar', [VolunteerController::class, 'daftar'])
+            ->name('volunteer.daftar');
 
-        Route::get('/volunteer/saya', [VolunteerController::class, 'myVolunteer'])->name('volunteer.my');
+        Route::get('/volunteer/saya', [VolunteerController::class, 'myVolunteer'])
+            ->name('volunteer.my');
 
-        Route::get('/volunteer/sertifikat', [VolunteerController::class, 'sertifikat'])->name('volunteer.sertifikat');
+        Route::get('/volunteer/sertifikat', [VolunteerController::class, 'sertifikat'])
+            ->name('volunteer.sertifikat');
 
-        Route::post('/volunteer/sertifikat/ajukan', [VolunteerController::class, 'ajukanSertifikat'])->name('volunteer.ajukanSertifikat');
+        Route::post('/volunteer/sertifikat/ajukan', [VolunteerController::class, 'ajukanSertifikat'])
+            ->name('volunteer.ajukanSertifikat');
     });
 
     /*
     |--------------------------------------------------------------------------
-    | Perusahaan
+    | PERUSAHAAN
     |--------------------------------------------------------------------------
     */
-
     Route::middleware('role:perusahaan')
         ->prefix('perusahaan')
         ->name('perusahaan.')
         ->group(function () {
 
-        Route::get('/dashboard', [PerusahaanDashboard::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [PerusahaanDashboard::class, 'index'])
+            ->name('dashboard');
 
-        Route::get('/profil', [ProfilPerusahaanController::class, 'index'])->name('profil');
-        Route::post('/profil/update', [ProfilPerusahaanController::class, 'update'])->name('profil.update');
+        Route::get('/profil', [ProfilPerusahaanController::class, 'index'])
+            ->name('profil');
 
-        /*
-        |--------------------------------------------------------------------------
-        | Proposal Masuk
-        |--------------------------------------------------------------------------
-        */
-
-        Route::get('/proposal', [PerusahaanProposal::class, 'index'])->name('proposal.index');
-
-        Route::get('/proposal/{id}/detail', [PerusahaanProposal::class, 'detail'])->name('proposal.detail');
-
-        Route::post('/proposal/{id}/status', [PerusahaanProposal::class, 'updateStatus'])->name('proposal.status');
-
-        Route::get('/proposal/{id}/pendanaan', [PerusahaanProposal::class, 'formPendanaan'])->name('proposal.pendanaan');
-
-        Route::post('/proposal/{id}/pendanaan', [PerusahaanProposal::class, 'storePendanaan'])->name('proposal.storePendanaan');
-
-        Route::get('/proposal/{id}/mou', [PerusahaanProposal::class, 'generateMou'])->name('proposal.mou');
+        Route::post('/profil/update', [ProfilPerusahaanController::class, 'update'])
+            ->name('profil.update');
 
         /*
         |--------------------------------------------------------------------------
-        | Sponsor Open Campaign
+        | PROPOSAL MASUK
         |--------------------------------------------------------------------------
         */
+        Route::get('/proposal', [PerusahaanProposal::class, 'index'])
+            ->name('proposal.index');
 
-        Route::get('/sponsor/tambah', [PerusahaanDashboard::class, 'addSponsor'])->name('sponsor.create');
-        Route::post('/sponsor/tambah', [PerusahaanDashboard::class, 'storeSponsor'])->name('sponsor.store');
+        Route::get('/proposal/{id}/detail', [PerusahaanProposal::class, 'detail'])
+            ->name('proposal.detail');
+
+        Route::post('/proposal/{id}/status', [PerusahaanProposal::class, 'updateStatus'])
+            ->name('proposal.status');
 
         /*
         |--------------------------------------------------------------------------
-        | Volunteer Management
+        | SPONSOR
         |--------------------------------------------------------------------------
         */
+        Route::get('/sponsor/tambah', [PerusahaanDashboard::class, 'addSponsor'])
+            ->name('sponsor.create');
 
-        Route::get('/volunteer', [ManageKegiatanController::class, 'index'])->name('volunteer.index');
-
-        Route::post('/volunteer/tambah', [ManageKegiatanController::class, 'store'])->name('volunteer.store');
-
-        Route::post('/volunteer/edit/{id}', [ManageKegiatanController::class, 'update'])->name('volunteer.update');
-
-        Route::get('/volunteer/hapus/{id}', [ManageKegiatanController::class, 'destroy'])->name('volunteer.destroy');
-
-        Route::post('/volunteer/pendaftaran/status', [ManageKegiatanController::class, 'updateStatusPendaftaran'])->name('volunteer.pendaftaran.status');
-
-        Route::get('/faq', function () {
-            return view('perusahaan.faq');
-        })->name('faq');
+        Route::post('/sponsor/tambah', [PerusahaanDashboard::class, 'storeSponsor'])
+            ->name('sponsor.store');
     });
 
     /*
     |--------------------------------------------------------------------------
-    | Admin
+    | ADMIN
     |--------------------------------------------------------------------------
     */
-
     Route::middleware('role:admin')
         ->prefix('admin')
         ->name('admin.')
         ->group(function () {
 
-        Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [AdminDashboard::class, 'index'])
+            ->name('dashboard');
 
-        /*
-        |--------------------------------------------------------------------------
-        | User Management
-        |--------------------------------------------------------------------------
-        */
+        Route::get('/users', [UserController::class, 'index'])
+            ->name('users.index');
 
-        Route::get('/users', [UserController::class, 'index'])->name('users.index');
-        Route::get('/users/tambah', [UserController::class, 'create'])->name('users.create');
-        Route::post('/users/tambah', [UserController::class, 'store'])->name('users.store');
+        Route::get('/laporan', [LaporanController::class, 'index'])
+            ->name('laporan.index');
 
-        Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
-        Route::post('/users/{id}/edit', [UserController::class, 'update'])->name('users.update');
-
-        Route::get('/users/{id}/hapus', [UserController::class, 'destroy'])->name('users.destroy');
-
-        /*
-        |--------------------------------------------------------------------------
-        | Reports
-        |--------------------------------------------------------------------------
-        */
-
-        Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
-        Route::get('/laporan/pdf', [LaporanController::class, 'pdf'])->name('laporan.pdf');
+        Route::get('/laporan/pdf', [LaporanController::class, 'pdf'])
+            ->name('laporan.pdf');
     });
+
 });

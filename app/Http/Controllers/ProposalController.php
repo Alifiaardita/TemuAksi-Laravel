@@ -12,13 +12,15 @@ class ProposalController extends Controller
 {
     public function create(int $sponsor_id)
     {
+
         $sponsor  = Sponsor::findOrFail($sponsor_id);
         $kategori = KategoriEvent::all();
-        return view('organizer.edit_proposal', compact('sponsor', 'kategori'));
+        return view('organizer.form_pengajuan', compact('sponsor', 'kategori'));
     }
 
     public function store(Request $request)
     {
+        // dd('MASUK STORE');
         $request->validate([
             'judul'       => 'required|string|max:200',
             'deskripsi'   => 'required|string',
