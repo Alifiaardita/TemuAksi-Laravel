@@ -100,6 +100,15 @@ class ProposalController extends Controller
         return $pdf->download('MOU_' . $proposal->id . '.pdf');
     }
 
+    public function destroy($id)
+    {
+        $proposal = $this->authorizedProposal($id);
+        $proposal->delete();
+
+        return redirect()
+            ->route('perusahaan.proposal.index')
+            ->with('success', 'Proposal berhasil dihapus.');
+    }
     /**
      * Pastikan proposal milik sponsor perusahaan login
      */

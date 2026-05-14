@@ -29,12 +29,12 @@ class Proposal extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
 
     public function sponsor()
     {
-        return $this->belongsTo(Sponsor::class, 'sponsor_id');
+        return $this->belongsTo(\App\Models\Sponsor::class, 'sponsor_id');
     }
 
     public function pendanaan()

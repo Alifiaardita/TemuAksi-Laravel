@@ -11,7 +11,7 @@
         </h2>
 
         <p class="text-xl font-semibold">
-            {{ $company->nama_perusahaan ?? 'Perusahaan Anda' }}
+            {{ $user->companyProfile->nama_perusahaan ?? 'Perusahaan Anda' }}
         </p>
 
         <p class="text-gray-500 mt-2">

@@ -151,6 +151,17 @@ Route::middleware('auth')->group(function () {
         Route::post('/profil/update', [ProfilPerusahaanController::class, 'update'])
             ->name('profil.update');
 
+        Route::get('/faq', fn() => view('perusahaan.faq'))->name('faq');
+
+        Route::get('/pendanaan/{id}', [PerusahaanProposal::class, 'formPendanaan'])
+            ->name('pendanaan.form');
+
+        Route::post('/pendanaan/{id}', [PerusahaanProposal::class, 'storePendanaan'])
+            ->name('pendanaan.store');
+        
+        Route::delete('/proposal/{id}/hapus', [PerusahaanProposal::class, 'destroy'])
+            ->name('proposal.destroy');
+
         /*
         |--------------------------------------------------------------------------
         | PROPOSAL MASUK
