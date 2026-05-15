@@ -46,6 +46,11 @@ class VolunteerKegiatan extends Model
         return $this->pendaftaran()->where('status', '!=', 'ditolak');
     }
 
+    public function volunteerPendaftaran()
+    {
+        return $this->hasMany(\App\Models\VolunteerPendaftaran::class, 'kegiatan_id');
+    }
+
     // Badge CSS
     public function badgeClass(): string
     {

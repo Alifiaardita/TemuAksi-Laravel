@@ -31,6 +31,11 @@ class VolunteerPendaftaran extends Model
         return $this->hasOne(VolunteerSertifikat::class, 'pendaftaran_id');
     }
 
+    public function volunteerKegiatan()
+    {
+        return $this->belongsTo(\App\Models\VolunteerKegiatan::class, 'kegiatan_id');
+    }
+
     public function statusChipClass(): string
     {
         return match($this->status) {
