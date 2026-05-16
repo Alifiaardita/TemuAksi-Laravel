@@ -23,7 +23,7 @@
                 </a>
                 <a href="{{ route('perusahaan.proposal.index') }}"
                 class="px-4 py-2 rounded-full text-sm font-medium transition
-                        {{ request()->routeIs('perusahaan.proposal.*') ? 'bg-gray-900 text-white' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100' }}">
+                        {{ request()->routeIs('perusahaan.proposal.*') ? 'bg-cornflower text-white' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100' }}">
                     Daftar Proposal
                 </a>
                 <a href="{{ route('volunteer.index') }}"

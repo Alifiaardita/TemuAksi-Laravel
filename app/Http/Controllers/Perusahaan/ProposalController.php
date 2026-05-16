@@ -19,16 +19,22 @@ class ProposalController extends Controller
         $userId = Auth::id();
 
         $proposals = Proposal::with([
-                'user.userProfile',
-                'sponsor'
-            ])
-            ->whereHas('sponsor', function ($q) use ($userId) {
-                $q->where('user_id', $userId);
-            })
-            ->latest()
-            ->get();
+            'user.userProfile',
+            'sponsor'
+        ])
+        ->whereHas('sponsor', function ($q) use ($userId) {
+            $q->where('user_id', $userId);
+        })
+        ->latest()
+        ->get();
 
-        return view('perusahaan.daftar_proposal', compact('proposals'));
+        $totalProposal    = $proposals->count();
+        $proposalMenunggu = $proposals->where('status', 'terkirim')->count();
+        $proposalDidanai  = $proposals->where('status', 'pendanaan')->count();
+
+        return view('perusahaan.daftar_proposal', compact(
+            'proposals', 'totalProposal', 'proposalMenunggu', 'proposalDidanai'
+        ));
     }
 
     public function detail($id)
