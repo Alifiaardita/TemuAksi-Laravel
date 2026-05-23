@@ -156,7 +156,7 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/pendanaan/{id}', [PerusahaanProposal::class, 'storePendanaan'])
             ->name('pendanaan.store');
-        
+
         Route::delete('/proposal/{id}/hapus', [PerusahaanProposal::class, 'destroy'])
             ->name('proposal.destroy');
 
