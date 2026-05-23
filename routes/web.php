@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Perusahaan\DashboardController as PerusahaanDashboard;
 use App\Http\Controllers\Perusahaan\ProfilPerusahaanController;
 use App\Http\Controllers\Perusahaan\ProposalController as PerusahaanProposal;
+use App\Http\Controllers\Perusahaan\LaporanPengeluaranController;
 
 use App\Http\Controllers\Volunteer\VolunteerController;
 use App\Http\Controllers\Volunteer\ManageKegiatanController;
@@ -26,7 +27,8 @@ use App\Http\Controllers\Volunteer\ManageKegiatanController;
 | HOME (GUEST LANDING PAGE)
 |--------------------------------------------------------------------------
 */
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])
+    ->name('home');
 
 /*
 |--------------------------------------------------------------------------
@@ -34,11 +36,11 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest')->group(function () {
-
-    Route::get('/login', [LoginController::class, 'showForm'])->name('login');
+    Route::get('/login', [LoginController::class, 'showForm'])
+        ->name('login');
     Route::post('/login', [LoginController::class, 'login']);
-
-    Route::get('/register', [RegisterController::class, 'showForm'])->name('register');
+    Route::get('/register', [RegisterController::class, 'showForm'])
+        ->name('register');
     Route::post('/register', [RegisterController::class, 'register']);
 });
 
@@ -57,13 +59,10 @@ Route::post('/logout', [LoginController::class, 'logout'])
 |--------------------------------------------------------------------------
 */
 Route::prefix('explore')->group(function () {
-
     Route::get('/', [ExploreController::class, 'index'])
         ->name('explore.index');
-
     Route::get('/kategori/{id}', [ExploreController::class, 'kategori'])
         ->name('explore.kategori');
-
     Route::get('/sponsor/{id}', [ExploreController::class, 'detailSponsor'])
         ->name('explore.sponsor');
 });
@@ -74,7 +73,6 @@ Route::prefix('explore')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
-
     /*
     |--------------------------------------------------------------------------
     | ORGANIZER
@@ -162,6 +160,11 @@ Route::middleware('auth')->group(function () {
         Route::delete('/proposal/{id}/hapus', [PerusahaanProposal::class, 'destroy'])
             ->name('proposal.destroy');
 
+        Route::get('/volunteer/buat', fn() => view('perusahaan.form_volunteer'))
+            ->name('volunteer.create');
+
+        Route::post('/volunteer/buat', [PerusahaanDashboard::class, 'storeVolunteer'])
+            ->name('volunteer.store');
         /*
         |--------------------------------------------------------------------------
         | PROPOSAL MASUK
@@ -175,7 +178,6 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/proposal/{id}/status', [PerusahaanProposal::class, 'updateStatus'])
             ->name('proposal.status');
-
         /*
         |--------------------------------------------------------------------------
         | SPONSOR
@@ -186,6 +188,14 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/sponsor/tambah', [PerusahaanDashboard::class, 'storeSponsor'])
             ->name('sponsor.store');
+
+       /*
+        |--------------------------------------------------------------------------
+        | LAPORAN KEUANGAN
+        |--------------------------------------------------------------------------
+        */
+        Route::get('/laporan-pengeluaran', [LaporanPengeluaranController::class, 'index'])
+            ->name('laporan-pengeluaran.index');
     });
 
     /*

@@ -35,7 +35,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
-                Buka Volunteer
+                Buka Sponsor
             </a>
         </div>
     </div>
@@ -163,7 +163,7 @@
         <div class="grid grid-cols-2 gap-4">
 
             <!-- Buat Open Volunteer -->
-            <a href="{{ route('volunteer.index') }}"
+            <a href="{{ route('perusahaan.sponsor.create') }}"
                 class="flex items-start gap-3 p-4 rounded-xl hover:bg-gray-50 transition group">
                 <div class="w-10 h-10 bg-cornflower rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -171,13 +171,13 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="text-sm font-semibold text-gray-800 group-hover:text-cornflower transition">Buat Open Volunteer</p>
-                    <p class="text-xs text-gray-400 mt-0.5">Buka lowongan volunteer baru</p>
+                    <p class="text-sm font-semibold text-gray-800 group-hover:text-cornflower transition">Buka Sponsor</p>
+                    <p class="text-xs text-gray-400 mt-0.5">Buka kerja sama sponsor baru</p>
                 </div>
             </a>
 
-            <!-- Laporan Impact -->
-            <a href="#"
+            <!-- Laporan Keuangan -->
+            <a href="{{ route('perusahaan.laporan-pengeluaran.index') }}"
                 class="flex items-start gap-3 p-4 rounded-xl hover:bg-gray-50 transition group">
                 <div class="w-10 h-10 bg-cornflower rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -185,7 +185,7 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="text-sm font-semibold text-gray-800 group-hover:text-cornflower transition">Laporan Impact</p>
+                    <p class="text-sm font-semibold text-gray-800 group-hover:text-cornflower transition">Laporan Keuangan</p>
                     <p class="text-xs text-gray-400 mt-0.5">Pantau dampak event yang didanai</p>
                 </div>
             </a>
