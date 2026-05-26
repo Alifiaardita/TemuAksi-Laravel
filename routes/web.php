@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\LaporanController;
+use App\Http\Controllers\Admin\CompanyController;
 
 use App\Http\Controllers\Perusahaan\DashboardController as PerusahaanDashboard;
 use App\Http\Controllers\Perusahaan\ProfilPerusahaanController;
@@ -204,16 +205,46 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::middleware('role:admin')
-        ->prefix('admin')
-        ->name('admin.')
-        ->group(function () {
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
 
         Route::get('/dashboard', [AdminDashboard::class, 'index'])
             ->name('dashboard');
 
-        Route::get('/users', [UserController::class, 'index'])
-            ->name('users.index');
+        // ================
+        // USER MANAGEMENT
+        // ================
+        Route::get('/user', [UserController::class, 'index'])
+            ->name('user.index');
 
+        Route::get('/user/create', [UserController::class, 'create'])
+            ->name('user.create');
+
+        Route::post('/user', [UserController::class, 'store'])
+            ->name('user.store');
+
+        Route::get('/user/{id}/edit', [UserController::class, 'edit'])
+            ->name('user.edit');
+
+        Route::put('/user/{id}', [UserController::class, 'update'])
+            ->name('user.update');
+
+        Route::delete('/user/{id}', [UserController::class, 'destroy'])
+            ->name('user.destroy');
+
+
+        // =========================
+        // COMPANY
+        // =========================
+        Route::get('/company', [CompanyController::class, 'index'])
+            ->name('company.index');
+
+        Route::get('/company/{id}', [CompanyController::class, 'show'])
+            ->name('company.show');
+        // =========================
+        // LAPORAN
+        // =========================
         Route::get('/laporan', [LaporanController::class, 'index'])
             ->name('laporan.index');
 

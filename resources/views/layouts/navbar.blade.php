@@ -72,7 +72,7 @@
             @elseif(auth()->user()->isAdmin())
                 <nav class="space-x-6 hidden md:block">
                     <a href="{{ route('admin.dashboard') }}" class="hover:text-mist">Dashboard</a>
-                    <a href="{{ route('admin.users.index') }}" class="hover:text-mist">Users</a>
+                    <a href="{{ route('admin.user.index') }}" class="hover:text-mist">Users</a>
                     <a href="{{ route('admin.laporan.index') }}" class="hover:text-mist">Laporan</a>
                 </nav>
             @else

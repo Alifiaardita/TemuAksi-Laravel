@@ -99,4 +99,13 @@ class User extends Authenticatable
 
         return optional($this->userProfile)->nama_lengkap ?? $this->email;
     }
+
+    public function getDisplayNameAttribute()
+    {
+        if ($this->role === 'perusahaan') {
+            return $this->companyProfile?->nama_perusahaan;
+        }
+
+        return $this->userProfile?->nama_lengkap;
+    }
 }

@@ -41,7 +41,9 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <script>
-        lucide.createIcons();
+        window.addEventListener("DOMContentLoaded", function () {
+            lucide.createIcons();
+        });
 
         function toggleDropdown() {
             document.getElementById('dropdown')?.classList.toggle('hidden');

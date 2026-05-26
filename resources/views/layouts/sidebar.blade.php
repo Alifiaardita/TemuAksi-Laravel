@@ -1,21 +1,28 @@
-<aside class="w-64 bg-cornflower text-white min-h-screen p-6">
-    <h2 class="text-2xl font-bold mb-8">⚙️ Admin</h2>
-    <nav class="space-y-4">
+<aside class="w-64 min-h-screen bg-white shadow-lg border-r">
+    <div class="p-6">
+        <h1 class="text-2xl font-bold text-cornflower">TemuAksi</h1>
+        <p class="text-sm text-gray-500">Admin Panel</p>
+    </div>
+
+    <nav class="mt-6 flex flex-col gap-2 px-4">
         <a href="{{ route('admin.dashboard') }}"
-           class="block px-4 py-2 rounded-lg {{ request()->routeIs('admin.dashboard') ? 'bg-mist' : 'hover:bg-mist' }}">
+           class="px-4 py-3 rounded-xl hover:bg-cornflower hover:text-white transition">
             📊 Dashboard
         </a>
-        <a href="{{ route('admin.users.index') }}"
-           class="block px-4 py-2 rounded-lg {{ request()->routeIs('admin.users*') ? 'bg-mist' : 'hover:bg-mist' }}">
-            👤 User
+
+        <a href="{{ route('admin.user.index') }}"
+            class="px-4 py-3 rounded-xl hover:bg-cornflower hover:text-white transition">
+            👤 Kelola User
         </a>
+
+        <a href="{{ route('admin.company.index') }}"
+           class="px-4 py-3 rounded-xl hover:bg-cornflower hover:text-white transition">
+            🏢 Kelola Perusahaan
+        </a>
+
         <a href="{{ route('admin.laporan.index') }}"
-           class="block px-4 py-2 rounded-lg {{ request()->routeIs('admin.laporan*') ? 'bg-mist' : 'hover:bg-mist' }}">
-            💰 Laporan
+           class="px-4 py-3 rounded-xl hover:bg-cornflower hover:text-white transition">
+            📑 Laporan
         </a>
-        <form method="POST" action="{{ route('logout') }}" class="mt-10">
-            @csrf
-            <button type="submit" class="text-red-300 hover:text-white">🚪 Logout</button>
-        </form>
     </nav>
 </aside>

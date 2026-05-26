@@ -8,12 +8,14 @@ use App\Models\UserProfile;
 use App\Models\CompanyProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with(['userProfile', 'companyProfile'])->get();
+        $users = User::with(['userProfile', 'companyProfile'])->latest()->get();
+
         return view('admin.user', compact('users'));
     }
 
@@ -31,31 +33,48 @@ class UserController extends Controller
         ]);
 
         DB::beginTransaction();
+
         try {
             $user = User::create([
-                'email'         => $request->email,
-                'password_hash' => bcrypt($request->password),
-                'role'          => $request->role,
-                'status'        => 'aktif',
+                'email'    => $request->email,
+                'password' => Hash::make($request->password),
+                'role'     => $request->role,
+                'status'   => 'aktif',
             ]);
 
-            if (in_array($request->role, ['individu', 'admin'])) {
-                UserProfile::create(['user_id' => $user->id, 'nama_lengkap' => '']);
+            if ($request->role === 'perusahaan') {
+                CompanyProfile::create([
+                    'user_id' => $user->id,
+                    'nama_perusahaan' => null
+                ]);
             } else {
-                CompanyProfile::create(['user_id' => $user->id, 'nama_perusahaan' => '']);
+                UserProfile::create([
+                    'user_id' => $user->id,
+                    'nama_lengkap' => null
+                ]);
             }
 
             DB::commit();
-            return redirect()->route('admin.users.index')->with('success', 'User berhasil ditambahkan.');
+
+            return redirect()
+                ->route('admin.user.index')
+                ->with('success', 'User berhasil ditambahkan.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Gagal menambah user.']);
+
+            return back()->withErrors([
+                'error' => 'Gagal menambah user'
+            ]);
         }
     }
 
     public function edit(int $id)
     {
-        $user = User::with(['userProfile', 'companyProfile'])->findOrFail($id);
+        $user = User::with([
+            'userProfile',
+            'companyProfile'
+        ])->findOrFail($id);
+
         return view('admin.edit_user', compact('user'));
     }
 
@@ -66,7 +85,7 @@ class UserController extends Controller
         $request->validate([
             'email' => 'required|email|unique:users,email,' . $id,
             'role'  => 'required|in:admin,individu,perusahaan',
-            'nama'  => 'required|string|max:200',
+            'nama'  => 'nullable|string|max:200',
         ]);
 
         $user->update([
@@ -86,14 +105,18 @@ class UserController extends Controller
             );
         }
 
-        return redirect()->route('admin.users.index')->with('success', 'User berhasil diperbarui.');
+        return redirect()
+            ->route('admin.user.index')
+            ->with('success', 'User berhasil diperbarui.');
     }
 
     public function destroy(int $id)
     {
         $user = User::findOrFail($id);
-        // cascade delete handles profiles
         $user->delete();
-        return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus.');
+
+        return redirect()
+            ->route('admin.user.index')
+            ->with('success', 'User berhasil dihapus.');
     }
 }
