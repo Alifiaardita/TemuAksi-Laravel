@@ -113,11 +113,11 @@
                     </button>
                     <div id="dropdown" class="hidden absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg overflow-hidden z-[9999]">
                         @if(auth()->user()->isPerusahaan())
-                            <a href="{{ route('perusahaan.profil') }}" class="block px-4 py-2 hover:bg-pear">My Profile</a>
+                            <a href="{{ route('perusahaan.profil') }}" class="block px-4 py-2 hover:bg-pear">Profile</a>
                         @elseif(auth()->user()->isAdmin())
                             <span class="block px-4 py-2 text-gray-400 text-xs">Admin Panel</span>
                         @else
-                            <a href="{{ route('profil.index') }}" class="block px-4 py-2 hover:bg-pear">My Profile</a>
+                            <a href="{{ route('profil.index') }}" class="block px-4 py-2 hover:bg-pear">Profile</a>
                         @endif
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

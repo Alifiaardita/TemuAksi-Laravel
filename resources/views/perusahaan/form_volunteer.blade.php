@@ -71,10 +71,11 @@
                         <select name="kategori"
                             class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30">
                             <option value="">Pilih kategori</option>
-                            <option value="lingkungan" {{ old('kategori') == 'lingkungan' ? 'selected' : '' }}>Lingkungan</option>
-                            <option value="sosial" {{ old('kategori') == 'sosial' ? 'selected' : '' }}>Sosial</option>
-                            <option value="pendidikan" {{ old('kategori') == 'pendidikan' ? 'selected' : '' }}>Pendidikan</option>
-                            <option value="kesehatan" {{ old('kategori') == 'kesehatan' ? 'selected' : '' }}>Kesehatan</option>
+                            @foreach($kategori as $kat)
+                                <option value="{{ $kat->id }}" {{ old('kategori') == $kat->id ? 'selected' : '' }}>
+                                    {{ $kat->nama_kategori }}
+                                </option>
+                            @endforeach
                         </select>
                         @error('kategori') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
@@ -184,4 +185,25 @@
 
     </form>
 </div>
+@push('scripts')
+<script>
+    const fotoInput = document.getElementById('foto-input');
+    const fotoPreview = document.getElementById('foto-preview');
+    const fotoPlaceholder = document.getElementById('foto-placeholder');
+    const previewImg = document.getElementById('preview-img');
+
+    fotoInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewImg.src = e.target.result;
+                fotoPreview.classList.remove('hidden');
+                fotoPlaceholder.classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+@endpush
 @endsection

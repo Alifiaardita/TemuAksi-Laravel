@@ -9,15 +9,31 @@ class VolunteerKegiatan extends Model
     protected $table = 'volunteer_kegiatan';
 
     protected $fillable = [
-        'kategori_id', 'judul', 'deskripsi', 'penyelenggara',
-        'lokasi', 'tanggal_mulai', 'tanggal_selesai',
-        'jam_mulai', 'jam_selesai', 'kuota', 'syarat',
-        'status', 'gambar_url', 'created_by',
+        'kategori_id',
+        'judul',
+        'deskripsi',
+        'penyelenggara',
+        'lokasi',
+        'tanggal_mulai',
+        'tanggal_selesai',
+        'jam_mulai',
+        'jam_selesai',
+        'kuota',
+        'syarat',
+        'divisi',
+        'kontak',
+        'benefit',
+        'cara_seleksi',
+        'deadline_daftar',
+        'status',
+        'gambar_url',
+        'created_by',
     ];
 
     protected $casts = [
         'tanggal_mulai'  => 'date',
         'tanggal_selesai'=> 'date',
+        'deadline_daftar' => 'date',
     ];
 
     // Status constants
@@ -78,5 +94,10 @@ class VolunteerKegiatan extends Model
     public function bisaDaftar(): bool
     {
         return $this->status === self::STATUS_AKTIF;
+    }
+    // Ambil benefit sebagai array
+    public function getBenefitArrayAttribute(): array
+    {
+        return $this->benefit ? json_decode($this->benefit, true) ?? [] : [];
     }
 }

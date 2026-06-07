@@ -39,6 +39,7 @@ class DashboardController extends Controller
                             ->get();
 
     $totalSponsor = Sponsor::where('user_id', $userId)->count();
+    $sponsorList = Sponsor::where('user_id', $userId)->orderBy('id', 'desc')->take(4)->get();
 
     $volunteerAktifList = VolunteerKegiatan::withCount('volunteerPendaftaran')
                             ->where('status', 'aktif')
@@ -55,6 +56,7 @@ class DashboardController extends Controller
     return view('perusahaan.dashboard', compact(
         'user',
         'totalSponsor',
+        'sponsorList',
         'totalProposal',
         'proposalMingguIni',
         'proposalMenunggu',
@@ -72,8 +74,13 @@ class DashboardController extends Controller
         return view('perusahaan.form_sponsor', compact('kategori'));
     }
 
+
     public function storeSponsor(Request $request)
     {
+        $request->merge([
+            'min_dana' => (int) str_replace('.', '', $request->min_dana),
+            'max_dana' => (int) str_replace('.', '', $request->max_dana),
+        ]);
         $request->validate([
             'nama'        => 'required|string|max:150',
             'industri'    => 'nullable|string|max:100',

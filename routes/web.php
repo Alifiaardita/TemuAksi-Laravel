@@ -19,6 +19,7 @@ use App\Http\Controllers\Perusahaan\DashboardController as PerusahaanDashboard;
 use App\Http\Controllers\Perusahaan\ProfilPerusahaanController;
 use App\Http\Controllers\Perusahaan\ProposalController as PerusahaanProposal;
 use App\Http\Controllers\Perusahaan\LaporanPengeluaranController;
+use App\Http\Controllers\Perusahaan\VolunteerPerusahaanController;
 
 use App\Http\Controllers\Volunteer\VolunteerController;
 use App\Http\Controllers\Volunteer\ManageKegiatanController;
@@ -161,10 +162,10 @@ Route::middleware('auth')->group(function () {
         Route::delete('/proposal/{id}/hapus', [PerusahaanProposal::class, 'destroy'])
             ->name('proposal.destroy');
 
-        Route::get('/volunteer/buat', fn() => view('perusahaan.form_volunteer'))
+        Route::get('/volunteer/buat', [VolunteerPerusahaanController::class, 'create'])
             ->name('volunteer.create');
-
-        Route::post('/volunteer/buat', [PerusahaanDashboard::class, 'storeVolunteer'])
+        
+        Route::post('/volunteer/buat', [VolunteerPerusahaanController::class, 'store'])
             ->name('volunteer.store');
         /*
         |--------------------------------------------------------------------------
