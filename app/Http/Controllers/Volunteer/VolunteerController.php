@@ -1,5 +1,5 @@
 <?php
-// app/Http/Controllers/Volunteer/VolunteerController.php
+
 namespace App\Http\Controllers\Volunteer;
 
 use App\Http\Controllers\Controller;
@@ -31,19 +31,26 @@ class VolunteerController extends Controller
 
         if ($request->filled('q')) {
             $kw = $request->q;
+
             $query->where(function ($q) use ($kw) {
-                $q->where('judul', 'like', "%$kw%")
-                  ->orWhere('deskripsi', 'like', "%$kw%")
-                  ->orWhere('penyelenggara', 'like', "%$kw%")
-                  ->orWhere('lokasi', 'like', "%$kw%")
-                  ->orWhere('syarat', 'like', "%$kw%");
+                $q->where('judul', 'like', "%{$kw}%")
+                    ->orWhere('deskripsi', 'like', "%{$kw}%")
+                    ->orWhere('penyelenggara', 'like', "%{$kw}%")
+                    ->orWhere('lokasi', 'like', "%{$kw}%")
+                    ->orWhere('syarat', 'like', "%{$kw}%");
             });
         }
 
-        $kegiatanList  = $query->orderBy('tanggal_mulai')->get();
-        $kategoriList  = KategoriEvent::orderBy('nama_kategori')->get();
+        $kegiatanList = $query
+            ->orderBy('tanggal_mulai')
+            ->get();
 
-        return view('volunteer.index', compact('kegiatanList', 'kategoriList'));
+        $kategoriList = KategoriEvent::orderBy('nama_kategori')->get();
+
+        return view(
+            'organizer.volunteer.index',
+            compact('kegiatanList', 'kategoriList')
+        );
     }
 
     public function detail(Request $request, int $id)
@@ -54,17 +61,25 @@ class VolunteerController extends Controller
             ])
             ->findOrFail($id);
 
-        $sudahDaftar    = false;
+        $sudahDaftar = false;
         $pendaftaranSaya = null;
 
         if (Auth::check()) {
             $pendaftaranSaya = VolunteerPendaftaran::where('user_id', Auth::id())
                 ->where('kegiatan_id', $id)
                 ->first();
+
             $sudahDaftar = (bool) $pendaftaranSaya;
         }
 
-        return view('volunteer.detail', compact('kegiatan', 'sudahDaftar', 'pendaftaranSaya'));
+        return view(
+            'organizer.volunteer.detail',
+            compact(
+                'kegiatan',
+                'sudahDaftar',
+                'pendaftaranSaya'
+            )
+        );
     }
 
     public function daftar(Request $request, int $id)
@@ -80,7 +95,9 @@ class VolunteerController extends Controller
         ]);
 
         if ($kegiatan->status !== 'aktif') {
-            return back()->withErrors(['Pendaftaran untuk kegiatan ini sudah ditutup.']);
+            return back()->withErrors([
+                'Pendaftaran untuk kegiatan ini sudah ditutup.'
+            ]);
         }
 
         $sudahDaftar = VolunteerPendaftaran::where('user_id', Auth::id())
@@ -88,41 +105,53 @@ class VolunteerController extends Controller
             ->exists();
 
         if ($sudahDaftar) {
-            return back()->withErrors(['Kamu sudah mendaftar pada kegiatan ini.']);
+            return back()->withErrors([
+                'Kamu sudah mendaftar pada kegiatan ini.'
+            ]);
         }
 
         if ($kegiatan->kuota) {
             $total = VolunteerPendaftaran::where('kegiatan_id', $id)->count();
+
             if ($total >= $kegiatan->kuota) {
-                return back()->withErrors(['Maaf, kuota sudah penuh.']);
+                return back()->withErrors([
+                    'Maaf, kuota sudah penuh.'
+                ]);
             }
         }
 
         VolunteerPendaftaran::create([
-            'user_id'     => Auth::id(),
-            'kegiatan_id' => $id,
-            'nama_lengkap'=> $request->nama_lengkap,
-            'no_telepon'  => $request->no_telepon,
-            'email'       => $request->email,
-            'motivasi'    => $request->motivasi,
-            'pengalaman'  => $request->pengalaman,
-            'status'      => 'menunggu',
+            'user_id'      => Auth::id(),
+            'kegiatan_id'  => $id,
+            'nama_lengkap' => $request->nama_lengkap,
+            'no_telepon'   => $request->no_telepon,
+            'email'        => $request->email,
+            'motivasi'     => $request->motivasi,
+            'pengalaman'   => $request->pengalaman,
+            'status'       => 'menunggu',
         ]);
 
         if ($kegiatan->kuota) {
             $total = VolunteerPendaftaran::where('kegiatan_id', $id)->count();
+
             if ($total >= $kegiatan->kuota) {
-                $kegiatan->update(['status' => 'penuh']);
+                $kegiatan->update([
+                    'status' => 'penuh'
+                ]);
             }
         }
 
-        return redirect()->route('volunteer.detail', $id)
+        return redirect()
+            ->route('volunteer.detail', $id)
             ->with('success', 'Pendaftaran berhasil!');
     }
 
     public function myVolunteer()
     {
-        $pendaftaranList = VolunteerPendaftaran::with(['kegiatan.kategori', 'sertifikat'])
+        $pendaftaranList = VolunteerPendaftaran::with([
+                'kegiatan.kategori',
+                'sertifikat'
+            ])
             ->where('user_id', Auth::id())
             ->latest()
             ->get();
@@ -134,17 +163,30 @@ class VolunteerController extends Controller
             'ditolak'  => $pendaftaranList->where('status', 'ditolak')->values(),
         ];
 
-        return view('volunteer.my', compact('pendaftaranList', 'groups'));
+        return view(
+            'organizer.volunteer.my',
+            compact(
+                'pendaftaranList',
+                'groups'
+            )
+        );
     }
 
     public function sertifikat()
     {
-        $sertifikatList = VolunteerSertifikat::with(['pendaftaran.kegiatan.kategori'])
-            ->whereHas('pendaftaran', fn($q) => $q->where('user_id', Auth::id()))
+        $sertifikatList = VolunteerSertifikat::with([
+                'pendaftaran.kegiatan.kategori'
+            ])
+            ->whereHas('pendaftaran', function ($q) {
+                $q->where('user_id', Auth::id());
+            })
             ->latest()
             ->get();
 
-        return view('volunteer.sertifikat', compact('sertifikatList'));
+        return view(
+            'organizer.volunteer.sertifikat',
+            compact('sertifikatList')
+        );
     }
 
     public function ajukanSertifikat(Request $request)
@@ -158,10 +200,13 @@ class VolunteerController extends Controller
             ->where('status', 'selesai')
             ->firstOrFail();
 
-        VolunteerSertifikat::firstOrCreate(['pendaftaran_id' => $pendaftaran->id]);
+        VolunteerSertifikat::firstOrCreate([
+            'pendaftaran_id' => $pendaftaran->id
+        ]);
 
-        return back()->with('success', 'Pengajuan sertifikat berhasil.');
+        return back()->with(
+            'success',
+            'Pengajuan sertifikat berhasil.'
+        );
     }
 }
-
-?>

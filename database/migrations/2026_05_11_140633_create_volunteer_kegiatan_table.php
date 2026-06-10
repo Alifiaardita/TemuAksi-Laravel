@@ -30,6 +30,11 @@ return new class extends Migration
     $table->timestamps();
     $table->foreign('kategori_id')->references('id')->on('kategori_event')->onDelete('set null');
     $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
+    $table->string('divisi')->nullable();
+    $table->string('kontak')->nullable();
+    $table->text('benefit')->nullable();
+    $table->string('cara_seleksi', 50)->nullable();
+    $table->date('deadline_daftar')->nullable();
 });
     }
 

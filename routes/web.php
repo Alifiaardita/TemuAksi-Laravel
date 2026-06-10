@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ExploreController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\ProposalController;
+use App\Http\Controllers\FaqController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -108,20 +109,15 @@ Route::middleware('auth')->group(function () {
         Route::delete('/proposal/{id}', [ProposalController::class, 'destroy'])
             ->name('proposal.destroy');
 
-        /*
+         /*
         |--------------------------------------------------------------------------
-        | VOLUNTEER
+        | VOLUNTEER — ORGANIZER (hanya bisa lihat & daftar)
         |--------------------------------------------------------------------------
         */
         Route::get('/volunteer', [VolunteerController::class, 'index'])
             ->name('volunteer.index');
 
-        Route::get('/volunteer/{id}', [VolunteerController::class, 'detail'])
-            ->name('volunteer.detail');
-
-        Route::post('/volunteer/{id}/daftar', [VolunteerController::class, 'daftar'])
-            ->name('volunteer.daftar');
-
+        // Static routes HARUS di atas route {id}
         Route::get('/volunteer/saya', [VolunteerController::class, 'myVolunteer'])
             ->name('volunteer.my');
 
@@ -130,8 +126,18 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/volunteer/sertifikat/ajukan', [VolunteerController::class, 'ajukanSertifikat'])
             ->name('volunteer.ajukanSertifikat');
-    });
 
+        // Dynamic route setelah static
+        Route::get('/volunteer/{id}', [VolunteerController::class, 'detail'])
+            ->name('volunteer.detail');
+
+        Route::post('/volunteer/{id}/daftar', [VolunteerController::class, 'daftar'])
+            ->name('volunteer.daftar');
+
+        Route::get('/faq', fn() => view('organizer.faq'))
+            ->name('organizer.faq');
+        Route::post('/faq', [FaqController::class, 'store'])->name('faq.store');
+    });
     /*
     |--------------------------------------------------------------------------
     | PERUSAHAAN
@@ -164,7 +170,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/volunteer/buat', [VolunteerPerusahaanController::class, 'create'])
             ->name('volunteer.create');
-        
+
         Route::post('/volunteer/buat', [VolunteerPerusahaanController::class, 'store'])
             ->name('volunteer.store');
         /*

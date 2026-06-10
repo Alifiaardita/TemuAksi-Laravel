@@ -21,7 +21,7 @@ class RegisterController extends Controller
         $request->validate([
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|min:6',
-            'role'     => 'required|in:individu,perusahaan',
+            'role'     => 'required|in:organizer,perusahaan',
             'nama'     => 'required|string|max:200',
         ]);
 
@@ -35,7 +35,7 @@ class RegisterController extends Controller
                 'status'        => 'aktif',
             ]);
 
-            if ($request->role === 'individu') {
+            if ($request->role === 'organizer') {
                 UserProfile::create([
                     'user_id'     => $user->id,
                     'nama_lengkap'=> $request->nama,
