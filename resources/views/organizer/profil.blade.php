@@ -8,74 +8,80 @@
 
 <div x-data="{ openEdit: false }" class="max-w-4xl mx-auto px-4 py-10">
 
-    {{-- HEADER CARD --}}
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6">
+{{-- HEADER CARD --}}
+<div class="relative rounded-2xl overflow-hidden bg-[#0f1f3d] px-7 pt-7 pb-6 mb-6">
 
-        {{-- COVER BANNER --}}
-        <div class="h-36 bg-gradient-to-r from-blue-600 via-blue-500 to-cornflower relative">
-            <div class="absolute inset-0 opacity-10"
-                 style="background-image: radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px); background-size: 40px 40px;">
-            </div>
-        </div>
+    {{-- dot pattern --}}
+    <div class="absolute inset-0 pointer-events-none"
+         style="background-image:radial-gradient(circle,rgba(255,255,255,.06) 1px,transparent 1px);background-size:22px 22px;"></div>
 
-        <div class="px-8 pb-7">
-            <div class="flex flex-col md:flex-row md:items-end gap-5">
+    {{-- decorative rings --}}
+    <div class="absolute -top-12 -right-12 w-44 h-44 rounded-full border border-blue-400/20 pointer-events-none"></div>
+    <div class="absolute -top-5 -right-5 w-28 h-28 rounded-full border border-blue-400/10 pointer-events-none"></div>
 
-                {{-- AVATAR --}}
-                <div class="-mt-12 z-10 flex-shrink-0">
-                    <div class="relative inline-block">
-                        <img
-                            src="{{ $user->userProfile?->avatar_url
-                                ? asset('storage/'.$user->userProfile->avatar_url)
-                                : 'https://ui-avatars.com/api/?name='.urlencode($user->nama).'&background=dbeafe&color=1d4ed8&size=128'
-                            }}"
-                            alt="Avatar"
-                            class="w-24 h-24 rounded-2xl border-4 border-white bg-white object-cover shadow-md"
-                        >
-                        @if($user->status === 'aktif')
-                            <span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-white"></span>
-                        @endif
+    {{-- Konten utama --}}
+    <div class="relative flex items-center justify-between">
+
+        {{-- Kiri: Avatar + Info --}}
+        <div class="flex items-center gap-5">
+            <div class="relative inline-block flex-shrink-0">
+                <img
+                    src="{{ $user->userProfile?->avatar_url
+                        ? asset('storage/'.$user->userProfile->avatar_url)
+                        : 'https://ui-avatars.com/api/?name='.urlencode($user->nama).'&background=1e3a6e&color=60a5fa&size=200'
+                    }}"
+                    alt="Avatar"
+                    class="w-20 h-20 rounded-full object-cover border-2 border-white/20"
+                >
+                @if($user->status === 'aktif')
+                    <div class="absolute bottom-0.5 right-0.5 w-5 h-5 rounded-full bg-blue-500 border-2 border-[#0f1f3d] flex items-center justify-center">
+                        <i class="ti ti-check text-white text-[9px]"></i>
                     </div>
-                </div>
+                @endif
+            </div>
 
-                {{-- INFO USER --}}
-                <div class="flex-1 min-w-0 pb-1">
-                    <h1 class="text-xl font-bold text-gray-900 truncate">
-                        {{ $user->userProfile?->nama_lengkap ?? 'Belum diisi' }}
-                    </h1>
-                    <p class="text-sm text-gray-400 mt-0.5">{{ $user->email }}</p>
-                    <div class="flex items-center gap-2 mt-2.5 flex-wrap">
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium">
-                            <i class="ti ti-shield-check text-xs"></i>
-                            {{ ucfirst($user->role) }}
+            <div>
+                <div class="flex items-center gap-2 mb-1">
+                    <p class="text-white text-xl font-semibold">{{ $user->userProfile?->nama_lengkap ?? 'Belum diisi' }}</p>
+                    @if($user->is_verified)
+                        <span class="flex items-center gap-1 text-xs font-medium text-emerald-400 bg-emerald-400/10 border border-emerald-400/25 rounded-full px-2.5 py-1">
+                            <i class="ti ti-circle-check text-sm"></i>Terverifikasi
                         </span>
-                        @if($user->is_verified)
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium">
-                                <i class="ti ti-circle-check text-xs"></i>
-                                Terverifikasi
-                            </span>
-                        @endif
-                        @if($user->userProfile?->username)
-                            <span class="text-xs text-gray-400">@{{ $user->userProfile->username }}</span>
-                        @endif
-                    </div>
+                    @endif
                 </div>
-
-                {{-- BUTTON EDIT --}}
-                <div class="pb-1">
-                    <button
-                        type="button"
-                        @click="openEdit = true"
-                        class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-medium transition shadow-sm"
-                    >
-                        <i class="ti ti-edit text-base"></i>
-                        Edit Profil
-                    </button>
+                <p class="text-white/50 text-sm mb-3">{{ $user->email }}</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="flex items-center gap-1.5 text-xs text-white/65 bg-white/[.07] border border-white/10 rounded-full px-3.5 py-1.5">
+                        <i class="ti ti-shield-check text-white/40 text-sm"></i>{{ ucfirst($user->role) }}
+                    </span>
+                    @if($user->userProfile?->username)
+                        <span class="flex items-center gap-1.5 text-xs text-white/65 bg-white/[.07] border border-white/10 rounded-full px-3.5 py-1.5">
+                            <i class="ti ti-at text-white/40 text-sm"></i>{{ $user->userProfile->username }}
+                        </span>
+                    @endif
+                    @if($user->userProfile?->no_telepon)
+                        <span class="flex items-center gap-1.5 text-xs text-white/65 bg-white/[.07] border border-white/10 rounded-full px-3.5 py-1.5">
+                            <i class="ti ti-phone text-white/40 text-sm"></i>{{ $user->userProfile->no_telepon }}
+                        </span>
+                    @endif
                 </div>
-
             </div>
         </div>
+
+        {{-- Kanan: Tombol Edit (tengah vertikal) --}}
+        <div class="flex-shrink-0">
+            <button
+                type="button"
+                @click="openEdit = true"
+                class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
+                <i class="ti ti-edit text-base"></i>
+                Edit Profil
+            </button>
+        </div>
+
     </div>
+
+</div>
 
     {{-- INFO GRID --}}
     <div class="grid md:grid-cols-2 gap-5 mb-5">

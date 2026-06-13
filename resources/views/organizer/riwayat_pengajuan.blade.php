@@ -83,7 +83,7 @@
                                 </td>
 
                                 <td class="px-6 py-4">
-                                    <p class="text-sm text-gray-500">{{ $row->tanggal }}</p>
+                                    <p class="text-sm text-gray-500">{{ $row->tanggal->format('d M Y') }}</p>
                                 </td>
 
                                 <td class="px-6 py-4">

@@ -97,44 +97,27 @@
             </div>
 
             {{-- Tanggal --}}
-            <div class="grid md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">
-                        Tanggal Mulai <span class="text-red-400">*</span>
-                    </label>
-                    <div class="relative">
-                        <div class="pointer-events-none absolute inset-y-0 left-3 flex items-center">
-                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                        </div>
-                        <input
-                            type="date"
-                            name="tanggal_mulai"
-                            required
-                            class="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower focus:border-transparent transition"
-                        >
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">
-                        Tanggal Selesai <span class="text-red-400">*</span>
-                    </label>
-                    <div class="relative">
-                        <div class="pointer-events-none absolute inset-y-0 left-3 flex items-center">
-                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                        </div>
-                        <input
-                            type="date"
-                            name="tanggal_selesai"
-                            required
-                            class="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower focus:border-transparent transition"
-                        >
-                    </div>
-                </div>
-            </div>
+           <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1.5">
+        Tanggal Kegiatan <span class="text-red-400">*</span>
+    </label>
+
+    <div class="relative">
+        <div class="pointer-events-none absolute inset-y-0 left-3 flex items-center">
+            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+        </div>
+
+        <input
+            type="date"
+            name="tanggal"
+            required
+            class="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower focus:border-transparent transition"
+        >
+    </div>
+</div>
 
             {{-- Target Dana --}}
             <div>

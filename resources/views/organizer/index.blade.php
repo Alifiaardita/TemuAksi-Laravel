@@ -44,25 +44,25 @@
 
     {{-- ========== RINGKASAN AKTIVITAS ========== --}}
     <section style="background: linear-gradient(90deg, #0f1e45 0%, #2d4fa0 100%);">
-        <div class="max-w-6xl mx-auto px-6 py-8 grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10 text-center">
-            <div class="px-6 py-2">
-                <p class="text-2xl font-black text-white">0</p>
-                <p class="text-xs text-white/50 mt-1">Event Diikuti</p>
-            </div>
-            <div class="px-6 py-2">
-                <p class="text-2xl font-black text-white">0</p>
-                <p class="text-xs text-white/50 mt-1">Proposal Terkirim</p>
-            </div>
-            <div class="px-6 py-2">
-                <p class="text-2xl font-black text-white">0</p>
-                <p class="text-xs text-white/50 mt-1">Sponsor Diperoleh</p>
-            </div>
-            <div class="px-6 py-2">
-                <p class="text-2xl font-black text-white">0</p>
-                <p class="text-xs text-white/50 mt-1">Volunteer Terdaftar</p>
-            </div>
+    <div class="max-w-6xl mx-auto px-6 py-8 grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10 text-center">
+        <div class="px-6 py-2">
+            <p class="text-2xl font-black text-white">0</p>
+            <p class="text-xs text-white/50 mt-1">Event Diikuti</p>
         </div>
-    </section>
+        <div class="px-6 py-2">
+            <p class="text-2xl font-black text-white">{{ $stats['proposal_terkirim'] ?? 0 }}</p>
+            <p class="text-xs text-white/50 mt-1">Proposal Terkirim</p>
+        </div>
+        <div class="px-6 py-2">
+            <p class="text-2xl font-black text-white">{{ $stats['sponsor_diperoleh'] ?? 0 }}</p>
+            <p class="text-xs text-white/50 mt-1">Sponsor Diperoleh</p>
+        </div>
+        <div class="px-6 py-2">
+            <p class="text-2xl font-black text-white">0</p>
+            <p class="text-xs text-white/50 mt-1">Volunteer Terdaftar</p>
+        </div>
+    </div>
+</section>
 
     {{-- ========== AKSI CEPAT ========== --}}
     <section class="py-16 bg-[#f0f2f8]">
@@ -75,20 +75,46 @@
 
                 {{-- Proposal Terbaru --}}
                 <div class="bg-white rounded-2xl p-8 border border-gray-100">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="font-black text-[#0f1e45] text-lg">Proposal Terbaru</h3>
-                        <a href="{{ route('proposal.riwayat') }}" class="text-sm text-[#4a6cf7] font-semibold hover:underline">Lihat semua →</a>
+    <div class="flex justify-between items-center mb-6">
+        <h3 class="font-black text-[#0f1e45] text-lg">Proposal Terbaru</h3>
+        <a href="{{ route('proposal.riwayat') }}" class="text-sm text-[#4a6cf7] font-semibold hover:underline">Lihat semua →</a>
+    </div>
+
+    @if(isset($proposalTerbaru) && $proposalTerbaru->count() > 0)
+        <div class="space-y-3">
+            @foreach($proposalTerbaru as $p)
+                @php
+                    $badge = match($p->status) {
+                        'terkirim'  => 'bg-yellow-50 text-yellow-700 border border-yellow-200',
+                        'pendanaan' => 'bg-blue-50 text-blue-700 border border-blue-200',
+                        'selesai'   => 'bg-green-50 text-green-700 border border-green-200',
+                        'ditolak'   => 'bg-red-50 text-red-700 border border-red-200',
+                        default     => 'bg-gray-50 text-gray-600 border border-gray-200',
+                    };
+                @endphp
+                <div class="flex items-center justify-between p-4 rounded-xl bg-[#f0f2f8]">
+                    <div class="min-w-0 flex-1">
+                        <p class="text-sm font-bold text-[#0f1e45] truncate">{{ $p->judul }}</p>
+                        <p class="text-xs text-gray-400 mt-0.5">{{ $p->sponsor->nama ?? '-' }} · {{ $p->tanggal->format('d M Y') }}</p>
                     </div>
-                    <div class="flex flex-col items-center justify-center py-10 text-center">
-                        <div class="w-12 h-12 bg-[#f0f2f8] rounded-2xl flex items-center justify-center mb-4">
-                            <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                            </svg>
-                        </div>
-                        <p class="text-sm text-gray-400">Belum ada proposal yang dikirim.</p>
-                        <a href="{{ route('explore.index') }}" class="mt-4 text-xs text-[#4a6cf7] font-semibold hover:underline">Mulai kirim proposal →</a>
-                    </div>
+                    <span class="ml-3 flex-shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full {{ $badge }}">
+                        {{ ucfirst($p->status) }}
+                    </span>
                 </div>
+            @endforeach
+        </div>
+    @else
+        <div class="flex flex-col items-center justify-center py-10 text-center">
+            <div class="w-12 h-12 bg-[#f0f2f8] rounded-2xl flex items-center justify-center mb-4">
+                <svg class="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+            </div>
+            <p class="text-sm text-gray-400">Belum ada proposal yang dikirim.</p>
+            <a href="{{ route('explore.index') }}" class="mt-4 text-xs text-[#4a6cf7] font-semibold hover:underline">Mulai kirim proposal →</a>
+        </div>
+    @endif
+</div>
 
                 {{-- Aksi Cepat --}}
                 <div class="bg-white rounded-2xl p-8 border border-gray-100">

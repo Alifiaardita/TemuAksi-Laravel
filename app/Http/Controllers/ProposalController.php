@@ -18,40 +18,41 @@ class ProposalController extends Controller
         return view('organizer.form_pengajuan', compact('sponsor', 'kategori'));
     }
 
-    public function store(Request $request)
-    {
-        // dd('MASUK STORE');
-        $request->validate([
-            'judul'       => 'required|string|max:200',
-            'deskripsi'   => 'required|string',
-            'kategori'    => 'required|string',
-            'lokasi'      => 'required|string|max:100',
-            'tanggal'     => 'required|date',
-            'target_dana' => 'required|integer|min:0',
-            'sponsor_id'  => 'required|exists:sponsor,id',
-            'file_proposal'=> 'nullable|mimes:pdf|max:5120',
-        ]);
+   public function store(Request $request)
+{
+    $request->validate([
+        'judul'         => 'required|string|max:200',
+        'deskripsi'     => 'required|string',
+        'kategori'      => 'required|string',
+        'lokasi'        => 'nullable|string|max:100', // atau required + tambah required di blade
+        'tanggal'       => 'required|date',
+        'target_dana'   => 'required|integer|min:0',
+        'sponsor_id'    => 'required|exists:sponsor,id',
+        'file_proposal' => 'nullable|mimes:pdf,doc,docx|max:10240',
+        // hapus 'status' dari sini
+    ]);
 
-        $fileName = null;
-        if ($request->hasFile('file_proposal')) {
-            $fileName = time() . '_' . $request->file('file_proposal')->getClientOriginalName();
-            $request->file('file_proposal')->storeAs('proposals', $fileName, 'public');
-        }
-
-        Proposal::create([
-            'user_id'      => Auth::id(),
-            'sponsor_id'   => $request->sponsor_id,
-            'judul'        => $request->judul,
-            'deskripsi'    => $request->deskripsi,
-            'kategori'     => $request->kategori,
-            'lokasi'       => $request->lokasi,
-            'tanggal'      => $request->tanggal,
-            'target_dana'  => $request->target_dana,
-            'file_proposal'=> $fileName,
-        ]);
-
-        return redirect()->route('proposal.riwayat')->with('success', 'Proposal berhasil diajukan!');
+    $fileName = null;
+    if ($request->hasFile('file_proposal')) {
+        $fileName = time() . '_' . $request->file('file_proposal')->getClientOriginalName();
+        $request->file('file_proposal')->storeAs('proposals', $fileName, 'public');
     }
+
+    Proposal::create([
+        'user_id'       => Auth::id(),
+        'sponsor_id'    => $request->sponsor_id,
+        'judul'         => $request->judul,
+        'deskripsi'     => $request->deskripsi,
+        'kategori'      => $request->kategori,
+        'lokasi'        => $request->lokasi,
+        'tanggal'       => $request->tanggal,
+        'target_dana'   => $request->target_dana,
+        'file_proposal' => $fileName,
+        'status'        => Proposal::STATUS_TERKIRIM, // ← tambahkan di sini
+    ]);
+
+    return redirect()->route('proposal.riwayat')->with('success', 'Proposal berhasil diajukan!');
+}
 
     public function riwayat()
     {
