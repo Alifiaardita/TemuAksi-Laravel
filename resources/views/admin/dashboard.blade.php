@@ -17,6 +17,16 @@
         </p>
     </div>
 
+    {{-- Tombol Logout --}}
+    <form action="{{ route('logout') }}" method="POST">
+        @csrf
+        <button
+            type="submit"
+            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl shadow transition">
+            Logout
+        </button>
+    </form>
+
 </div>
 
 {{-- STATISTIK --}}
@@ -53,7 +63,9 @@
 
     <div class="bg-white p-5 rounded-2xl shadow">
         <p class="text-sm text-gray-500">Open Sponsor</p>
-        <h2 class="text-3xl font-bold mt-2 text-yellow-500">{{ $openSponsor }}</h2>
+        <h2 class="text-3xl font-bold mt-2 text-yellow-500">
+            {{ $openSponsor }}
+        </h2>
     </div>
 
 </div>
@@ -70,35 +82,35 @@
 
             @foreach($users as $user)
 
-            <a href="{{ route('admin.user.edit', $user->id) }}"
-               class="block border rounded-xl p-4 hover:bg-gray-50 transition">
+                <a href="{{ route('admin.user.edit', $user->id) }}"
+                   class="block border rounded-xl p-4 hover:bg-gray-50 transition">
 
-                <div class="flex justify-between items-center">
+                    <div class="flex justify-between items-center">
 
-                    <div>
-                        <h3 class="font-semibold">
-                            {{ $user->role === 'perusahaan'
-                                ? $user->companyProfile?->nama_perusahaan
-                                : ($user->userProfile?->nama_lengkap ?? '-') }}
-                        </h3>
+                        <div>
+                            <h3 class="font-semibold">
+                                {{ $user->role === 'perusahaan'
+                                    ? $user->companyProfile?->nama_perusahaan
+                                    : ($user->userProfile?->nama_lengkap ?? '-') }}
+                            </h3>
 
-                        <p class="text-sm text-gray-500">
-                            {{ $user->email }}
-                        </p>
+                            <p class="text-sm text-gray-500">
+                                {{ $user->email }}
+                            </p>
+                        </div>
+
+                        <span class="
+                            px-3 py-1 rounded-full text-sm
+                            {{ $user->status == 'aktif'
+                                ? 'bg-green-100 text-green-600'
+                                : 'bg-red-100 text-red-600' }}
+                        ">
+                            {{ ucfirst($user->status) }}
+                        </span>
+
                     </div>
 
-                    <span class="
-                        px-3 py-1 rounded-full text-sm
-                        {{ $user->status == 'aktif'
-                            ? 'bg-green-100 text-green-600'
-                            : 'bg-red-100 text-red-600' }}
-                    ">
-                        {{ ucfirst($user->status) }}
-                    </span>
-
-                </div>
-
-            </a>
+                </a>
 
             @endforeach
 
@@ -115,35 +127,35 @@
 
             @foreach($perusahaan as $item)
 
-            <a href="{{ route('admin.company.show', $item->id) }}"
-               class="block border rounded-xl p-4 hover:bg-gray-50 transition">
+                <a href="{{ route('admin.company.show', $item->id) }}"
+                   class="block border rounded-xl p-4 hover:bg-gray-50 transition">
 
-                <div class="flex justify-between items-center mb-2">
+                    <div class="flex justify-between items-center mb-2">
 
-                    <div>
-                        <h3 class="font-semibold">
-                            {{ $item->companyProfile->nama_perusahaan ?? '-' }}
-                        </h3>
+                        <div>
+                            <h3 class="font-semibold">
+                                {{ $item->companyProfile->nama_perusahaan ?? '-' }}
+                            </h3>
 
-                        <p class="text-sm text-gray-500">
-                            {{ $item->email }}
-                        </p>
+                            <p class="text-sm text-gray-500">
+                                {{ $item->email }}
+                            </p>
+                        </div>
+
+                        <span class="text-sm px-3 py-1 rounded-full bg-blue-100 text-blue-600">
+                            Aktif
+                        </span>
+
                     </div>
 
-                    <span class="text-sm px-3 py-1 rounded-full bg-blue-100 text-blue-600">
-                        Aktif
-                    </span>
+                    <div class="text-sm text-gray-600">
+                        Dana Tersalurkan:
+                        <span class="font-bold text-green-600">
+                            Rp {{ number_format($item->total_dana ?? 0, 0, ',', '.') }}
+                        </span>
+                    </div>
 
-                </div>
-
-                <div class="text-sm text-gray-600">
-                    Dana Tersalurkan:
-                    <span class="font-bold text-green-600">
-                        Rp {{ number_format($item->total_dana ?? 0, 0, ',', '.') }}
-                    </span>
-                </div>
-
-            </a>
+                </a>
 
             @endforeach
 
