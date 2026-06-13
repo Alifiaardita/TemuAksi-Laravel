@@ -103,7 +103,7 @@ class ProposalController extends Controller
         $pdf = Pdf::loadView('perusahaan.pdf_mou', compact('proposal'))
             ->setPaper('a4', 'portrait');
 
-        return $pdf->download('MOU_' . $proposal->id . '.pdf');
+        return $pdf->stream('MOU_' . $proposal->id . '.pdf');
     }
 
     public function destroy($id)
@@ -115,6 +115,36 @@ class ProposalController extends Controller
             ->route('perusahaan.proposal.index')
             ->with('success', 'Proposal berhasil dihapus.');
     }
+
+    public function setujui(Request $request, $id)
+    {
+        $proposal = $this->authorizedProposal($id);
+        
+        // Ubah status ke pendanaan
+        $proposal->update(['status' => 'pendanaan']);
+
+        // Simpan data pendanaan
+        Pendanaan::create([
+            'proposal_id'   => $proposal->id,
+            'perusahaan_id' => Auth::id(),
+            'jumlah_dana'   => $request->jumlah_dana,
+        ]);
+
+        return redirect()
+            ->route('perusahaan.proposal.index')
+            ->with('success', 'Proposal berhasil disetujui dan masuk ke tahap pendanaan.');
+    }
+
+    public function tolak($id)
+    {
+        $proposal = $this->authorizedProposal($id);
+        $proposal->update(['status' => 'ditolak']);
+
+        return redirect()
+            ->route('perusahaan.proposal.index')
+            ->with('success', 'Proposal telah ditolak.');
+    }
+    
     /**
      * Pastikan proposal milik sponsor perusahaan login
      */

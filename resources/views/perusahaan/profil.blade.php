@@ -10,10 +10,10 @@
 <main class="min-h-screen py-10 bg-gray-50">
     <div class="max-w-2xl mx-auto px-4 flex flex-col gap-4">
 
-        @if(session('success'))
-            <div class="flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl px-4 py-3 text-sm">
+        @if(request('updated'))
+            <div id="success-alert" class="flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl px-4 py-3 text-sm">
                 <i class="ti ti-circle-check text-emerald-500 text-lg"></i>
-                {{ session('success') }}
+                Profil berhasil diperbarui.
             </div>
         @endif
 
@@ -48,25 +48,6 @@
             {{-- Nama & email --}}
             <p class="text-white text-xl font-semibold mb-1">{{ $company->nama_perusahaan ?? 'Nama Perusahaan' }}</p>
             <p class="text-white/50 text-sm">{{ $user->email ?? 'email@perusahaan.com' }}</p>
-
-            {{-- Chips --}}
-            <div class="flex flex-wrap gap-2 mt-4">
-                @if($company->bidang_industri)
-                <span class="flex items-center gap-1.5 text-xs text-white/65 bg-white/[.07] border border-white/10 rounded-full px-3.5 py-1.5">
-                    <i class="ti ti-building text-white/40 text-sm"></i>{{ $company->bidang_industri }}
-                </span>
-                @endif
-                @if($company->alamat)
-                <span class="flex items-center gap-1.5 text-xs text-white/65 bg-white/[.07] border border-white/10 rounded-full px-3.5 py-1.5">
-                    <i class="ti ti-map-pin text-white/40 text-sm"></i>{{ $company->alamat }}
-                </span>
-                @endif
-                @if($company->website)
-                <span class="flex items-center gap-1.5 text-xs text-white/65 bg-white/[.07] border border-white/10 rounded-full px-3.5 py-1.5">
-                    <i class="ti ti-world text-white/40 text-sm"></i>{{ $company->website }}
-                </span>
-                @endif
-            </div>
         </div>
 
         {{-- CARD: INFORMASI PERUSAHAAN --}}
@@ -254,6 +235,14 @@
     document.getElementById('modal').addEventListener('click', function(e) {
         if (e.target === this) closeModal();
     });
+
+    setTimeout(function() {
+        const alert = document.getElementById('success-alert');
+        if (alert) {
+            alert.style.display = 'none';
+            window.history.replaceState({}, document.title, '/perusahaan/profil');
+        }
+    }, 500);
 </script>
 @endpush
 @endsection

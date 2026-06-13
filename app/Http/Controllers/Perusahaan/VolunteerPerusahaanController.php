@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Perusahaan;
 use App\Http\Controllers\Controller;
 use App\Models\KategoriEvent;
 use App\Models\VolunteerKegiatan;
+use App\Models\VolunteerPendaftaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -21,7 +22,6 @@ class VolunteerPerusahaanController extends Controller
     // Simpan data volunteer baru
     public function store(Request $request)
     {
-        \Log::info('Form submitted', $request->all());
         $request->validate([
             'nama_kegiatan'    => 'required|string|max:200',
             'deskripsi'        => 'required|string',
@@ -39,12 +39,19 @@ class VolunteerPerusahaanController extends Controller
             'cara_seleksi'     => 'nullable|in:langsung,berkas,interview',
             'deadline_daftar'  => 'nullable|date|before_or_equal:tanggal_mulai',
             'foto'             => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
+            'guidebook'        => 'nullable|file|mimes:pdf,doc,docx|max:5120',
         ]);
 
         // Upload foto
         $gambarUrl = null;
         if ($request->hasFile('foto')) {
             $gambarUrl = $request->file('foto')->store('volunteer', 'public');
+        }
+
+        // Upload guidebook
+        $guidebookPath = null;
+        if ($request->hasFile('guidebook')) {
+            $guidebookPath = $request->file('guidebook')->store('guidebooks', 'public');
         }
 
         // Gabungkan benefit checkbox + benefit lain
@@ -71,10 +78,37 @@ class VolunteerPerusahaanController extends Controller
             'gambar_url'      => $gambarUrl,
             'status'          => 'aktif',
             'created_by'      => Auth::id(),
+            'guidebook'       => $guidebookPath,
         ]);
 
         return redirect()
             ->route('perusahaan.dashboard')
             ->with('success', 'Kegiatan volunteer berhasil dibuat!');
+    }
+
+    // Tampilkan daftar peserta volunteer
+    public function peserta(Request $request, $id)
+    {
+        $kegiatan = VolunteerKegiatan::with('kategori')
+            ->where('created_by', Auth::id())
+            ->findOrFail($id);
+
+        $query = VolunteerPendaftaran::where('kegiatan_id', $id);
+
+        if ($request->filled('q')) {
+            $kw = $request->q;
+            $query->where(function ($q) use ($kw) {
+                $q->where('nama_lengkap', 'like', "%{$kw}%")
+                  ->orWhere('email', 'like', "%{$kw}%");
+            });
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $pesertaList = $query->latest()->get();
+
+        return view('perusahaan.peserta_volunteer', compact('kegiatan', 'pesertaList'));
     }
 }

@@ -21,6 +21,7 @@ use App\Http\Controllers\Perusahaan\ProfilPerusahaanController;
 use App\Http\Controllers\Perusahaan\ProposalController as PerusahaanProposal;
 use App\Http\Controllers\Perusahaan\LaporanPengeluaranController;
 use App\Http\Controllers\Perusahaan\VolunteerPerusahaanController;
+use App\Http\Controllers\Perusahaan\FaqCompanyController;
 
 use App\Http\Controllers\Volunteer\VolunteerController;
 use App\Http\Controllers\Volunteer\ManageKegiatanController;
@@ -144,66 +145,43 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::middleware('role:perusahaan')
-        ->prefix('perusahaan')
-        ->name('perusahaan.')
-        ->group(function () {
+    ->prefix('perusahaan')
+    ->name('perusahaan.')
+    ->group(function () {
 
-        Route::get('/dashboard', [PerusahaanDashboard::class, 'index'])
-            ->name('dashboard');
+    Route::get('/dashboard', [PerusahaanDashboard::class, 'index'])->name('dashboard');
+    Route::get('/profil', [ProfilPerusahaanController::class, 'index'])->name('profil');
+    Route::post('/profil/update', [ProfilPerusahaanController::class, 'update'])->name('profil.update');
 
-        Route::get('/profil', [ProfilPerusahaanController::class, 'index'])
-            ->name('profil');
+    Route::get('/faq', [FaqCompanyController::class, 'index'])->name('faq');
+    Route::post('/faq', [FaqCompanyController::class, 'store'])->name('faq.store');
 
-        Route::post('/profil/update', [ProfilPerusahaanController::class, 'update'])
-            ->name('profil.update');
+    Route::get('/pendanaan/{id}', [PerusahaanProposal::class, 'formPendanaan'])->name('pendanaan.form');
+    Route::post('/pendanaan/{id}', [PerusahaanProposal::class, 'storePendanaan'])->name('pendanaan.store');
+    Route::delete('/proposal/{id}/hapus', [PerusahaanProposal::class, 'destroy'])->name('proposal.destroy');
 
-        Route::get('/faq', fn() => view('perusahaan.faq'))->name('faq');
+    Route::get('/volunteer/buat', [VolunteerPerusahaanController::class, 'create'])->name('volunteer.create');
+    Route::post('/volunteer/buat', [VolunteerPerusahaanController::class, 'store'])->name('volunteer.store');
 
-        Route::get('/pendanaan/{id}', [PerusahaanProposal::class, 'formPendanaan'])
-            ->name('pendanaan.form');
+    Route::get('/proposal', [PerusahaanProposal::class, 'index'])->name('proposal.index');
+    Route::get('/proposal/{id}/detail', [PerusahaanProposal::class, 'detail'])->name('proposal.detail');
+    Route::post('/proposal/{id}/status', [PerusahaanProposal::class, 'updateStatus'])->name('proposal.status');
 
-        Route::post('/pendanaan/{id}', [PerusahaanProposal::class, 'storePendanaan'])
-            ->name('pendanaan.store');
+    Route::get('/sponsor/tambah', [PerusahaanDashboard::class, 'addSponsor'])->name('sponsor.create');
+    Route::post('/sponsor/tambah', [PerusahaanDashboard::class, 'storeSponsor'])->name('sponsor.store');
 
-        Route::delete('/proposal/{id}/hapus', [PerusahaanProposal::class, 'destroy'])
-            ->name('proposal.destroy');
+    Route::get('/volunteer/{id}/peserta', [VolunteerPerusahaanController::class, 'peserta'])->name('volunteer.peserta');
 
-        Route::get('/volunteer/buat', [VolunteerPerusahaanController::class, 'create'])
-            ->name('volunteer.create');
+    Route::get('/laporan-pengeluaran', [LaporanPengeluaranController::class, 'index'])->name('laporan-pengeluaran.index');
 
-        Route::post('/volunteer/buat', [VolunteerPerusahaanController::class, 'store'])
-            ->name('volunteer.store');
-        /*
-        |--------------------------------------------------------------------------
-        | PROPOSAL MASUK
-        |--------------------------------------------------------------------------
-        */
-        Route::get('/proposal', [PerusahaanProposal::class, 'index'])
-            ->name('proposal.index');
+    Route::patch('/proposal/{id}/setujui', [PerusahaanProposal::class, 'setujui'])->name('proposal.setujui');
+    Route::patch('/proposal/{id}/tolak', [PerusahaanProposal::class, 'tolak'])->name('proposal.tolak');
 
-        Route::get('/proposal/{id}/detail', [PerusahaanProposal::class, 'detail'])
-            ->name('proposal.detail');
+    Route::get('/proposal/{id}/mou', [PerusahaanProposal::class, 'generateMou'])->name('proposal.mou');
 
-        Route::post('/proposal/{id}/status', [PerusahaanProposal::class, 'updateStatus'])
-            ->name('proposal.status');
-        /*
-        |--------------------------------------------------------------------------
-        | SPONSOR
-        |--------------------------------------------------------------------------
-        */
-        Route::get('/sponsor/tambah', [PerusahaanDashboard::class, 'addSponsor'])
-            ->name('sponsor.create');
-
-        Route::post('/sponsor/tambah', [PerusahaanDashboard::class, 'storeSponsor'])
-            ->name('sponsor.store');
-
-       /*
-        |--------------------------------------------------------------------------
-        | LAPORAN KEUANGAN
-        |--------------------------------------------------------------------------
-        */
-        Route::get('/laporan-pengeluaran', [LaporanPengeluaranController::class, 'index'])
-            ->name('laporan-pengeluaran.index');
+    Route::get('/sponsor', [PerusahaanDashboard::class, 'sponsorIndex'])->name('sponsor.index');
+    Route::get('/sponsor/{id}/edit', [PerusahaanDashboard::class, 'editSponsor'])->name('sponsor.edit');
+    Route::put('/sponsor/{id}', [PerusahaanDashboard::class, 'updateSponsor'])->name('sponsor.update');
     });
 
     /*
@@ -258,5 +236,4 @@ Route::middleware('auth')->group(function () {
         Route::get('/laporan/pdf', [LaporanController::class, 'pdf'])
             ->name('laporan.pdf');
     });
-
-});
+    }); 

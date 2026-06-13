@@ -68,6 +68,16 @@ class DashboardController extends Controller
     ));
 }
 
+public function sponsorIndex()
+{
+    $user = auth()->user();
+
+    $sponsorList = Sponsor::where('user_id', $user->id)
+    ->with('kategori')
+    ->orderBy('id', 'desc')
+    ->paginate(10);
+    return view('perusahaan.list_sponsor', compact('sponsorList'));
+}
     public function addSponsor()
     {
         $kategori = KategoriEvent::all();
@@ -106,4 +116,35 @@ class DashboardController extends Controller
             ->route('perusahaan.dashboard')
             ->with('success', 'Sponsorship berhasil dibuat!');
     }
+
+    public function editSponsor($id)
+{
+    $user = auth()->user();
+
+    $sponsor = Sponsor::where('user_id', $user->id)->findOrFail($id);
+    $kategoriList = KategoriEvent::all(); // sesuaikan nama model
+
+    return view('perusahaan.edit_sponsor', compact('sponsor', 'kategoriList'));
+}
+
+public function updateSponsor(Request $request, $id)
+{
+    $user = auth()->user();
+
+    $sponsor = Sponsor::where('user_id', $user->id)->findOrFail($id);
+
+    $sponsor->update($request->validate([
+        'nama'       => 'required|string|max:255',
+        'industri'   => 'required|string|max:255',
+        'deskripsi'  => 'required|string',
+        'kategori_id'=> 'required|integer',
+        'min_dana'   => 'required|numeric',
+        'max_dana'   => 'required|numeric',
+        'lokasi'     => 'nullable|string|max:255',
+    ]));
+
+    return redirect()->route('perusahaan.sponsor.index')->with('success', 'Sponsor berhasil diperbarui.');
+}
+
+
 }

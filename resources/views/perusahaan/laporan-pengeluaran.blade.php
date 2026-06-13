@@ -4,16 +4,6 @@
 
 <div class="min-h-screen bg-canvas p-6 md:p-10">
     <div class="max-w-3xl mx-auto space-y-5">
-
-        {{-- Back --}}
-        <a href="{{ route('perusahaan.dashboard') }}"
-            class="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 transition">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
-            </svg>
-            Kembali ke dashboard
-        </a>
-
         {{-- Header --}}
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div class="h-1.5 bg-gradient-to-r from-cornflower via-cornflower/70 to-cornflower/30"></div>

@@ -52,9 +52,6 @@ class ProfilPerusahaanController extends Controller
                 'password_hash' => bcrypt($request->password)
             ]);
         }
-
-        return redirect()
-            ->route('perusahaan.profil')
-            ->with('success', 'Profil berhasil diperbarui.');
+        return redirect('/perusahaan/profil?updated=1');
     }
 }

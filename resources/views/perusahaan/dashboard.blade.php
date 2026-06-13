@@ -13,7 +13,7 @@
                 {{ strtoupper(now()->translatedFormat('l, d F Y')) }}
             </p>
             <h2 class="text-3xl font-bold text-white mb-2">
-                Selamat Datang, {{ $user->companyProfile->nama_perusahaan ?? 'Perusahaan Anda' }} 👋
+                Selamat Datang, {{ $user->companyProfile->nama_perusahaan ?? 'Perusahaan Anda' }} 
             </h2>
             <p class="text-white/70 text-sm leading-relaxed">
                 Kelola sponsorship, tinjau proposal masuk,<br>
@@ -30,12 +30,13 @@
                 </svg>
                 Lihat Proposal
             </a>
-            <a href="{{ route('volunteer.index') }}" 
+            <a href="{{ route('perusahaan.sponsor.create') }}" 
             class="flex items-center gap-3 bg-white/10 text-white px-5 py-3 rounded-2xl font-semibold hover:bg-white/20 transition border border-white/20">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
                 Buka Sponsor
+            </a>
             </a>
         </div>
     </div>
@@ -191,7 +192,7 @@
             </a>
 
             <!-- Export Laporan -->
-            <a href="#"
+            <a href=""
                 class="flex items-start gap-3 p-4 rounded-xl hover:bg-gray-50 transition group">
                 <div class="w-10 h-10 bg-cornflower rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -205,7 +206,7 @@
             </a>
 
             <!-- Edit Profil -->
-            <a href="#"
+            <a href="{{ route('perusahaan.profil') }}"
                 class="flex items-start gap-3 p-4 rounded-xl hover:bg-gray-50 transition group">
                 <div class="w-10 h-10 bg-cornflower rounded-xl flex items-center justify-center flex-shrink-0">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -263,6 +264,12 @@
                 <p class="text-xs text-cornflower font-medium">{{ $pendaftar }} / {{ $kuota }} pendaftar</p>
                 <p class="text-sm font-bold text-gray-800">{{ $persen }}%</p>
             </div>
+            <div class="mt-3 pt-3 border-t border-gray-100">
+                <a href="{{ route('perusahaan.volunteer.peserta', $kegiatan->id) }}"
+                    class="text-xs text-cornflower hover:underline font-medium">
+                    Lihat peserta →
+                </a>
+            </div>
         </div>
         @empty
         <div class="md:col-span-2 bg-white rounded-2xl p-6 shadow-sm text-center text-sm text-gray-400">
@@ -277,10 +284,13 @@
 
 <!-- SPONSOR AKTIF -->
 <section class="max-w-6xl mx-auto px-6 mb-20">
-    <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4">Program Sponsor Aktif</p>
+    <div class="flex items-center justify-between mb-4">
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Program Sponsor Aktif</p>
+        <a href="{{ route('perusahaan.sponsor.index') }}" class="text-sm text-cornflower hover:underline">Lihat semua →</a>
+    </div>
 
     <div class="grid md:grid-cols-2 gap-4 mb-4">
-        @forelse($sponsorList ?? [] as $sponsor)
+        @forelse(($sponsorList ?? collect())->take(4) as $sponsor)
         <div class="bg-white rounded-2xl p-5 shadow-sm">
             <div class="flex items-start justify-between gap-3 mb-4">
                 <div class="flex items-start gap-3">

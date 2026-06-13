@@ -27,6 +27,7 @@ class VolunteerKegiatan extends Model
         'deadline_daftar',
         'status',
         'gambar_url',
+        'guidebook',
         'created_by',
     ];
 

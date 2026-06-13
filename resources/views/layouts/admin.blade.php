@@ -2,6 +2,7 @@
 <html lang="id">
 
 <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
@@ -24,7 +25,7 @@
         @include('layouts.sidebar')
 
         {{-- CONTENT --}}
-        <main class="flex-1 p-8 overflow-y-auto">
+        <main class="flex-1 p-8 overflow-y-auto min-h-0">
 
             {{-- FLASH MESSAGE --}}
             @if(session('success'))

@@ -65,6 +65,22 @@
                         @error('tanggal_selesai') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-sm text-gray-500 block mb-1">Jam mulai</label>
+                        <input type="time" name="jam_mulai" value="{{ old('jam_mulai') }}"
+                            class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30">
+                        @error('jam_mulai') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label class="text-sm text-gray-500 block mb-1">Jam selesai</label>
+                        <input type="time" name="jam_selesai" value="{{ old('jam_selesai') }}"
+                            class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30">
+                        @error('jam_selesai') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="text-sm text-gray-500 block mb-1">Kategori</label>
@@ -147,9 +163,9 @@
             </div>
         </div>
 
-        {{-- KONTAK & SELEKSI --}}
+        {{-- KONTAK & BERKAS --}}
         <div class="bg-white border border-gray-100 rounded-2xl p-6">
-            <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-4">Kontak & seleksi</p>
+            <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-4">Kontak & Berkas</p>
             <div class="flex flex-col gap-4">
                 <div>
                     <label class="text-sm text-gray-500 block mb-1">Kontak person</label>
@@ -159,33 +175,35 @@
                     @error('kontak') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div>
-                    <label class="text-sm text-gray-500 block mb-1">Cara seleksi</label>
-                    <select name="cara_seleksi"
-                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30">
-                        <option value="langsung" {{ old('cara_seleksi') == 'langsung' ? 'selected' : '' }}>Langsung diterima</option>
-                        <option value="berkas" {{ old('cara_seleksi') == 'berkas' ? 'selected' : '' }}>Seleksi berkas</option>
-                        <option value="interview" {{ old('cara_seleksi') == 'interview' ? 'selected' : '' }}>Interview</option>
-                    </select>
-                    @error('cara_seleksi') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    <label class="text-sm text-gray-500 block mb-1">Guidebook <span class="text-gray-400">(opsional)</span></label>
+                    <input type="file" name="guidebook" accept=".pdf,.doc,.docx"
+                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-500 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-cornflower/10 file:text-cornflower cursor-pointer focus:outline-none focus:ring-2 focus:ring-cornflower/30">
+                    <p class="text-xs text-gray-400 mt-1">Format: PDF, DOC, DOCX</p>
+                    @error('guidebook') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
             </div>
         </div>
+                {{-- TOMBOL --}}
+                <div class="flex justify-end gap-3 pb-6">
+                    <a href="{{ route('perusahaan.dashboard') }}"
+                        class="px-6 py-2.5 text-sm text-gray-500 border border-gray-200 rounded-xl hover:bg-gray-50 transition">
+                        Batal
+                    </a>
+                    <button type="submit"
+                        class="px-6 py-2.5 text-sm font-medium bg-cornflower text-white rounded-xl hover:opacity-90 transition">
+                        Kirim
+                    </button>
+                </div>
 
-        {{-- TOMBOL --}}
-        <div class="flex justify-end gap-3 pb-6">
-            <a href="{{ route('perusahaan.dashboard') }}"
-                class="px-6 py-2.5 text-sm text-gray-500 border border-gray-200 rounded-xl hover:bg-gray-50 transition">
-                Batal
-            </a>
-            <button type="submit"
-                class="px-6 py-2.5 text-sm font-medium bg-cornflower text-white rounded-xl hover:opacity-90 transition">
-                Kirim
-            </button>
+            </form>
         </div>
-
-    </form>
-</div>
 @push('scripts')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    flatpickr("input[name='jam_mulai']", { ... });
+    flatpickr("input[name='jam_selesai']", { ... });
+</script>
 <script>
     const fotoInput = document.getElementById('foto-input');
     const fotoPreview = document.getElementById('foto-preview');
