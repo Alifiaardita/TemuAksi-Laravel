@@ -119,7 +119,7 @@
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         onerror="this.src='https://placehold.co/600x400?text=Volunteer'"
                     >
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                    <div class="absolute inset-0 bg-linear-to-t from-black/30 to-transparent"></div>
 
                     {{-- Status badge overlay --}}
                     <div class="absolute top-3 left-3">
