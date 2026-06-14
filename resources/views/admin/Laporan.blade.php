@@ -96,7 +96,12 @@
 
                         <td class="px-6 py-4 font-semibold text-gray-700">
 
-                            Rp {{ number_format($proposal->target_dana,0,',','.') }}
+                            @if(in_array($proposal->status, ['pendanaan', 'selesai']))
+                                Rp {{ number_format($proposal->pendanaan->jumlah_dana ?? 0, 0, ',', '.') }}
+                            @else
+                                Rp {{ number_format($proposal->target_dana, 0, ',', '.') }}
+                            @endif
+
 
                         </td>
 

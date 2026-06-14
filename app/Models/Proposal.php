@@ -39,7 +39,7 @@ class Proposal extends Model
 
     public function pendanaan()
     {
-        return $this->hasMany(Pendanaan::class, 'proposal_id');
+        return $this->hasOne(Pendanaan::class);
     }
 
     // Scopes
