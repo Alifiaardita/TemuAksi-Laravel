@@ -28,6 +28,14 @@
                             Rp {{ number_format($totalDana, 0, ',', '.') }}
                         </p>
                         <p class="text-xs text-gray-400 mt-0.5">dari {{ $totalAcara }} acara yang didanai</p>
+                        <a href="{{ route('perusahaan.laporan-pengeluaran.export', request()->query()) }}"
+                            target="_blank"
+                            class="inline-flex items-center gap-1.5 mt-3 px-3 py-1.5 bg-cornflower text-white text-xs rounded-xl hover:bg-cornflower/90 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5 7.5 12M12 3v13.5"/>
+                            </svg>
+                            Export PDF
+                        </a>
                     </div>
                 </div>
 

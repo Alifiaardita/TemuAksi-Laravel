@@ -106,4 +106,18 @@ class ProposalController extends Controller
         $proposal->delete();
         return redirect()->route('proposal.riwayat')->with('success', 'Proposal berhasil dihapus.');
     }
+    public function generateMou($id)
+    {
+        $proposal = Proposal::with([
+            'user.userProfile',
+            'sponsor.user.companyProfile',
+            'pendanaan'
+        ])->where('user_id', Auth::id())
+        ->findOrFail($id);
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('perusahaan.pdf_mou', compact('proposal'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->stream('MOU_' . $proposal->id . '.pdf');
+    }
 }

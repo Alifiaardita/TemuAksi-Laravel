@@ -26,7 +26,13 @@
                         <p class="text-xs text-gray-400 mt-0.5">{{ $sponsor->kategori->nama_kategori ?? '-' }} · {{ $sponsor->lokasi ?? 'Semua lokasi' }}</p>
                     </div>
                 </div>
-                <span class="text-xs font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-600 flex-shrink-0">Aktif</span>
+                @php
+                    $aktif = (!$sponsor->tanggal_tutup || \Carbon\Carbon::parse($sponsor->tanggal_tutup)->gte(now()->startOfDay()))
+                        && (!$sponsor->tanggal_buka || \Carbon\Carbon::parse($sponsor->tanggal_buka)->lte(now()->startOfDay()));
+                @endphp
+                <span class="text-xs font-semibold px-3 py-1 rounded-full flex-shrink-0 {{ $aktif ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-400' }}">
+                    {{ $aktif ? 'Aktif' : 'Tidak Aktif' }}
+                </span>
             </div>
 
             <div class="flex items-center justify-between mb-3">
@@ -38,7 +44,7 @@
 
             <div class="pt-3 border-t border-gray-100 flex items-center justify-between">
                 <a href="{{ route('perusahaan.sponsor.edit', $sponsor->id) }}" class="text-xs text-cornflower hover:underline font-medium">
-                    Edit detail
+                    Selengkapnya
                 </a>
             </div>
         </div>

@@ -28,13 +28,16 @@
     {{-- Table header --}}
     <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
         <h2 class="font-black text-[#0f1e45] text-base">Proposal Masuk</h2>
-        <select class="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-500 bg-white">
-            <option>Semua status</option>
-            <option>Menunggu</option>
-            <option>Didanai</option>
-            <option>Selesai</option>
-            <option>Ditolak</option>
-        </select>
+        <form method="GET" action="{{ route('perusahaan.proposal.index') }}">
+            <select name="status" onchange="this.form.submit()"
+                class="text-xs px-3 py-1.5 rounded-lg border border-gray-200 text-gray-500 bg-white">
+                <option value="" {{ request('status') == '' ? 'selected' : '' }}>Semua status</option>
+                <option value="terkirim" {{ request('status') == 'terkirim' ? 'selected' : '' }}>Menunggu</option>
+                <option value="pendanaan" {{ request('status') == 'pendanaan' ? 'selected' : '' }}>Didanai</option>
+                <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+            </select>
+        </form>
     </div>
 
     <div class="overflow-x-auto">
@@ -202,7 +205,7 @@
         <div style="background:#4A6FA5; padding:16px 24px; border-radius:16px 16px 0 0; display:flex; align-items:center; justify-content:space-between; flex-shrink:0;">
             <h2 style="color:white; font-size:15px; font-weight:600; margin:0;">Detail proposal</h2>
             <button 
-                onclick="closeModal()" 
+                onclick="closeDetailProposalModal()" 
                 type="button"
                 style="background:none; border:none; color:white; font-size:28px; cursor:pointer; line-height:1; padding:0; width:32px; height:32px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                 &times;
@@ -357,13 +360,13 @@ function bukaDetailProposal(btn) {
     document.getElementById('modal').style.display = 'flex';
 }
 
-function closeModal() {
+function closeDetailProposalModal() {
     document.getElementById('modal').style.setProperty('display', 'none', 'important');
 }
 
 function bukaPendanaan(proposalId) {
     // tutup modal detail dulu
-    closeModal();
+    closeDetailProposalModal();
 
     // set proposal id dan token ke form pendanaan
     document.getElementById('pendanaanProposalId').value = proposalId;

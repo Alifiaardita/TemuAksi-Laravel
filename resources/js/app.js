@@ -31,14 +31,20 @@ window.lihatDetail = function (
 
   let mouHTML = "";
 
-  if (status?.trim().toLowerCase() === "selesai") {
-    mouHTML = `
-      <a href="/pdf/generate-mou/${id}"
-         target="_blank"
-         class="inline-block mt-4 bg-green-600 text-white px-4 py-2 rounded-lg">
-         📄 Download MOU
-      </a>
-    `;
+  if (status?.trim().toLowerCase() === "pendanaan") {
+      mouHTML = `
+          <div class="border-t border-gray-100 pt-4">
+              <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">Dokumen MOU</p>
+              <a href="/proposal/${id}/mou"
+                target="_blank"
+                class="flex items-center gap-2 bg-[#0f1e45] text-white text-sm font-semibold px-4 py-2.5 rounded-xl hover:bg-[#1a3a6e] transition w-fit">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                  </svg>
+                  Download MOU
+             </a>
+          </div>
+      `;
   }
 
   document.getElementById("mouArea").innerHTML = mouHTML;
