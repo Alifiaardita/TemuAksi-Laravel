@@ -114,7 +114,7 @@
                 {{-- Gambar --}}
                 <div class="relative h-48 overflow-hidden">
                     <img
-                        src="{{ $kegiatan->gambar_url ? asset('storage/' . $kegiatan->gambar_url) : 'https://placehold.co/600x400?text=Volunteer' }}"
+                        src="{{ $kegiatan->gambar_url ? Storage::url($kegiatan->gambar_url) : 'https://placehold.co/600x400?text=Volunteer' }}"
                         alt="{{ $kegiatan->judul }}"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         onerror="this.src='https://placehold.co/600x400?text=Volunteer'"
@@ -199,6 +199,18 @@
                         </div>
 
                     </div>
+                    {{-- Empty state (hidden by default, ditampilkan JS) --}}
+<div id="emptyState" class="hidden col-span-full">
+    <div class="bg-white rounded-2xl border border-dashed border-gray-200 p-16 text-center">
+        <div class="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-1">Tidak Ditemukan</h3>
+        <p class="text-sm text-gray-400">Coba kata kunci atau filter yang berbeda.</p>
+    </div>
+</div>
 
                     {{-- Footer --}}
                     <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">

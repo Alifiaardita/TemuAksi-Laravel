@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\Admin\KategoriController;
 
 use App\Http\Controllers\Perusahaan\DashboardController as PerusahaanDashboard;
 use App\Http\Controllers\Perusahaan\ProfilPerusahaanController;
@@ -227,6 +228,11 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/company/{id}', [CompanyController::class, 'show'])
             ->name('company.show');
+
+        //kategori
+        Route::resource('kategori', KategoriController::class)
+        ->only(['index', 'store', 'update', 'destroy']);
+
         // =========================
         // LAPORAN
         // =========================
@@ -236,4 +242,4 @@ Route::middleware('auth')->group(function () {
         Route::get('/laporan/pdf', [LaporanController::class, 'pdf'])
             ->name('laporan.pdf');
     });
-    }); 
+    });

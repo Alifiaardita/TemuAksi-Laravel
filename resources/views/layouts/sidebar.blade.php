@@ -33,6 +33,14 @@
             <i class="ti ti-building" style="font-size:18px;"></i> Kelola Perusahaan
         </a>
 
+        <a href="{{ route('admin.kategori.index') }}"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition"
+        style="{{ request()->routeIs('admin.kategori.*') ? 'background:#4a6cf7; color:white;' : 'color:rgba(255,255,255,0.6);' }}"
+        onmouseover="{{ request()->routeIs('admin.kategori.*') ? '' : 'this.style.background=\"rgba(255,255,255,0.08)\"; this.style.color=\"white\"' }}"
+        onmouseout="{{ request()->routeIs('admin.kategori.*') ? '' : 'this.style.background=\"transparent\"; this.style.color=\"rgba(255,255,255,0.6)\"' }}">
+            <i class="ti ti-category" style="font-size:18px;"></i> Kelola Kategori
+        </a>
+
         <a href="{{ route('admin.laporan.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition"
            style="{{ request()->routeIs('admin.laporan.*') ? 'background:#4a6cf7; color:white;' : 'color:rgba(255,255,255,0.6);' }}"

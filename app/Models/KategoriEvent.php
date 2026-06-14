@@ -10,7 +10,7 @@ class KategoriEvent extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['nama_kategori'];
+    protected $fillable = ['nama_kategori', 'gambar'];
 
     public function sponsors()
     {

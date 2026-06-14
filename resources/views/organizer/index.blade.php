@@ -23,7 +23,7 @@
                     Kelola event, ajukan proposal sponsorship, dan rekrut volunteer untuk acaramu.
                 </p>
             </div>
-            <div class="flex gap-3 flex-shrink-0">
+            <div class="flex gap-3 shrink-0">
                 <a href="{{ route('explore.index') }}"
                    class="flex items-center gap-2 bg-white text-[#0f1e45] font-semibold px-5 py-3 rounded-xl hover:opacity-90 transition text-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -97,7 +97,7 @@
                         <p class="text-sm font-bold text-[#0f1e45] truncate">{{ $p->judul }}</p>
                         <p class="text-xs text-gray-400 mt-0.5">{{ $p->sponsor->nama ?? '-' }} · {{ $p->tanggal->format('d M Y') }}</p>
                     </div>
-                    <span class="ml-3 flex-shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full {{ $badge }}">
+                    <span class="ml-3 shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full {{ $badge }}">
                         {{ ucfirst($p->status) }}
                     </span>
                 </div>
@@ -122,7 +122,7 @@
                     <div class="grid grid-cols-2 gap-3">
                         <a href="{{ route('explore.index') }}"
                            class="flex items-start gap-3 p-4 rounded-xl bg-[#f0f2f8] hover:bg-[#e4e8ff] transition group">
-                            <div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#4a6cf7] transition">
+                            <div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center shrink-0 group-hover:bg-[#4a6cf7] transition">
                                 <svg class="w-4 h-4 text-[#4a6cf7] group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                                 </svg>
@@ -134,7 +134,7 @@
                         </a>
                         <a href="{{ route('volunteer.index') }}"
                            class="flex items-start gap-3 p-4 rounded-xl bg-[#f0f2f8] hover:bg-[#e4e8ff] transition group">
-                            <div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#4a6cf7] transition">
+                            <div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center shrink-0 group-hover:bg-[#4a6cf7] transition">
                                 <svg class="w-4 h-4 text-[#4a6cf7] group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                                 </svg>
@@ -146,7 +146,7 @@
                         </a>
                         <a href="{{ route('proposal.riwayat') }}"
                            class="flex items-start gap-3 p-4 rounded-xl bg-[#f0f2f8] hover:bg-[#e4e8ff] transition group">
-                            <div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#4a6cf7] transition">
+                            <div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center shrink-0 group-hover:bg-[#4a6cf7] transition">
                                 <svg class="w-4 h-4 text-[#4a6cf7] group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                                 </svg>
@@ -158,7 +158,7 @@
                         </a>
                         <a href="{{ route('organizer.faq') }}"
                            class="flex items-start gap-3 p-4 rounded-xl bg-[#f0f2f8] hover:bg-[#e4e8ff] transition group">
-                            <div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#4a6cf7] transition">
+                            <div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center shrink-0 group-hover:bg-[#4a6cf7] transition">
                                 <svg class="w-4 h-4 text-[#4a6cf7] group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
@@ -180,7 +180,7 @@
     <section class="relative overflow-hidden" style="background: linear-gradient(135deg, #0f1e45 0%, #1a3a6e 50%, #2d4fa0 100%);">
         <div class="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10" style="background: #4a6cf7; transform: translate(30%, -30%);"></div>
         <div class="absolute bottom-0 left-0 w-72 h-72 rounded-full opacity-10" style="background: #4a6cf7; transform: translate(-30%, 30%);"></div>
-        <div class="absolute top-1/2 left-1/2 w-[600px] h-[600px] rounded-full opacity-5" style="background: #4a6cf7; transform: translate(-50%, -50%);"></div>
+        <div class="absolute top-1/2 left-1/2 w-150 h-150 rounded-full opacity-5" style="background: #4a6cf7; transform: translate(-50%, -50%);"></div>
         <div class="absolute inset-0 opacity-[0.06]"
              style="background-image: radial-gradient(circle, #ffffff 1px, transparent 1px); background-size: 28px 28px;"></div>
 
@@ -260,8 +260,9 @@
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             @foreach($kategori as $k)
             <a href="{{ auth()->check() ? route('explore.kategori', $k->id) : route('login') }}"
-               class="group relative rounded-2xl overflow-hidden aspect-[3/4]">
-                <img src="https://picsum.photos/300/400?random={{ $k->id }}"
+               class="group relative rounded-2xl overflow-hidden aspect-3/4">
+                <img src="{{ $k->gambar ? Storage::url($k->gambar) : 'https://picsum.photos/300/400?random='.$k->id }}"
+                class="w-full h-full object-cover ...">
                      class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                 <div class="absolute inset-0 bg-[#0f1e45]/40 group-hover:bg-[#0f1e45]/60 transition"></div>
                 <span class="absolute bottom-4 left-4 text-white font-bold text-sm">{{ $k->nama_kategori }}</span>
@@ -333,7 +334,7 @@
         </div>
         <div class="grid md:grid-cols-2 gap-4">
             <div class="flex gap-5 items-start p-6 rounded-2xl bg-white border border-gray-100">
-                <div class="w-10 h-10 bg-[#e4e8ff] rounded-xl flex items-center justify-center flex-shrink-0">
+                <div class="w-10 h-10 bg-[#e4e8ff] rounded-xl flex items-center justify-center shrink-0">
                     <svg class="w-5 h-5 text-[#4a6cf7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
@@ -344,7 +345,7 @@
                 </div>
             </div>
             <div class="flex gap-5 items-start p-6 rounded-2xl bg-white border border-gray-100">
-                <div class="w-10 h-10 bg-[#e4e8ff] rounded-xl flex items-center justify-center flex-shrink-0">
+                <div class="w-10 h-10 bg-[#e4e8ff] rounded-xl flex items-center justify-center shrink-0">
                     <svg class="w-5 h-5 text-[#4a6cf7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
@@ -355,7 +356,7 @@
                 </div>
             </div>
             <div class="flex gap-5 items-start p-6 rounded-2xl bg-white border border-gray-100">
-                <div class="w-10 h-10 bg-[#e4e8ff] rounded-xl flex items-center justify-center flex-shrink-0">
+                <div class="w-10 h-10 bg-[#e4e8ff] rounded-xl flex items-center justify-center shrink-0">
                     <svg class="w-5 h-5 text-[#4a6cf7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                     </svg>
@@ -366,7 +367,7 @@
                 </div>
             </div>
             <div class="flex gap-5 items-start p-6 rounded-2xl bg-white border border-gray-100">
-                <div class="w-10 h-10 bg-[#e4e8ff] rounded-xl flex items-center justify-center flex-shrink-0">
+                <div class="w-10 h-10 bg-[#e4e8ff] rounded-xl flex items-center justify-center shrink-0">
                     <svg class="w-5 h-5 text-[#4a6cf7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-3 3v-3z"/>
                     </svg>

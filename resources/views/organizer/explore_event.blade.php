@@ -39,7 +39,7 @@
             </div>
             <h1 class="text-3xl font-bold text-gray-900">Explore Event</h1>
         </div>
-        <p class="text-gray-500 ml-[52px]">Pilih kategori untuk menemukan kegiatan yang sesuai minatmu.</p>
+        <p class="text-gray-500 ml-13">Pilih kategori untuk menemukan kegiatan yang sesuai minatmu.</p>
     </div>
 
     {{-- Grid --}}
@@ -57,12 +57,9 @@
 
                     {{-- Image --}}
                     <div class="relative h-40 overflow-hidden">
-                        <img
-                            src="https://picsum.photos/400/300?random={{ $row->id }}"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                            alt="{{ $row->nama_kategori }}"
-                        >
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                        <img src="{{ $row->gambar ? Storage::url($row->gambar) : 'https://picsum.photos/400/300?random='.$row->id }}"
+                            class="w-full h-full object-cover ...">
+                        <div class="absolute inset-0 bg-linear-to-t from-black/40 to-transparent"></div>
 
                         {{-- Badge overlay --}}
                         <div class="absolute bottom-3 left-3">
@@ -79,7 +76,7 @@
                     <div class="p-5">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-3">
-                                <div class="w-9 h-9 rounded-xl {{ $color['bg'] }} flex items-center justify-center flex-shrink-0">
+                                <div class="w-9 h-9 rounded-xl {{ $color['bg'] }} flex items-center justify-center shrink-0">
                                     <svg class="w-4 h-4 {{ $color['icon'] }}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                         {!! $icon !!}
                                     </svg>

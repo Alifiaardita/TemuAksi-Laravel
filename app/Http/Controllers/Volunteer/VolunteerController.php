@@ -47,6 +47,15 @@ class VolunteerController extends Controller
 
         $kategoriList = KategoriEvent::orderBy('nama_kategori')->get();
 
+        // Kalau request dari JS (AJAX)
+    if ($request->ajax()) {
+        $html = view('volunteer._cards', compact('kegiatanList'))->render();
+        return response()->json([
+            'html'  => $html,
+            'count' => $kegiatanList->count(),
+        ]);
+    }
+
         return view(
             'organizer.volunteer.index',
             compact('kegiatanList', 'kategoriList')
