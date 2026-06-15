@@ -13,6 +13,14 @@ class Sponsor extends Model
     protected $fillable = [
         'user_id', 'nama', 'industri', 'deskripsi',
         'kategori_id', 'min_dana', 'max_dana', 'lokasi',
+        'tanggal_buka', 'tanggal_tutup',
+        'wilayah', 'syarat', 'dokumen', 'benefit',
+    ];
+
+    protected $casts = [
+        'syarat'  => 'array',
+        'dokumen' => 'array',
+        'benefit' => 'array',
     ];
 
     public function kategori()

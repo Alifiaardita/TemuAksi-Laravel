@@ -14,23 +14,33 @@ class ProposalController extends Controller
     /**
      * Semua proposal yang masuk ke sponsor milik perusahaan ini
      */
-    public function index()
+    public function index(Request $request)
     {
         $userId = Auth::id();
 
-        $proposals = Proposal::with([
+        // Hitung metric dari SEMUA proposal milik sponsor (tidak terpengaruh filter)
+        $allProposals = Proposal::whereHas('sponsor', function ($q) use ($userId) {
+            $q->where('user_id', $userId);
+        })->get();
+
+        $totalProposal    = $allProposals->count();
+        $proposalMenunggu = $allProposals->where('status', 'terkirim')->count();
+        $proposalDidanai  = $allProposals->where('status', 'pendanaan')->count();
+
+        // Query proposal untuk tabel, dengan filter status (jika ada)
+        $query = Proposal::with([
             'user.userProfile',
             'sponsor'
         ])
         ->whereHas('sponsor', function ($q) use ($userId) {
             $q->where('user_id', $userId);
-        })
-        ->latest()
-        ->get();
+        });
 
-        $totalProposal    = $proposals->count();
-        $proposalMenunggu = $proposals->where('status', 'terkirim')->count();
-        $proposalDidanai  = $proposals->where('status', 'pendanaan')->count();
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $proposals = $query->latest()->get();
 
         return view('perusahaan.daftar_proposal', compact(
             'proposals', 'totalProposal', 'proposalMenunggu', 'proposalDidanai'

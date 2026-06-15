@@ -86,7 +86,7 @@
                 </div>
             </div>
             <p class="text-4xl font-bold text-gray-900">
-                {{ $totalDisalurkan >= 1000000 ? number_format($totalDisalurkan / 1000000, 0, ',', '.') . 'M' : number_format($totalDisalurkan ?? 0, 0, ',', '.') }}
+                {{ $totalDisalurkan >= 1000000 ? number_format($totalDisalurkan, 0, ',', '.')  : number_format($totalDisalurkan ?? 0, 0, ',', '.') }}
             </p>
             <p class="text-xs text-gray-400 mt-1">Rp sepanjang {{ now()->year }}</p>
         </div>
@@ -304,7 +304,14 @@
                         <p class="text-xs text-gray-400 mt-0.5">{{ $sponsor->kategori->nama_kategori ?? '-' }} · {{ $sponsor->lokasi ?? 'Semua lokasi' }}</p>
                     </div>
                 </div>
-                <span class="text-xs font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-600 flex-shrink-0">Aktif</span>
+                @php
+                    $sekarang = now()->toDateString();
+                    $aktif = (!$sponsor->tanggal_tutup || \Carbon\Carbon::parse($sponsor->tanggal_tutup)->gte(now()->startOfDay()))
+                        && (!$sponsor->tanggal_buka || \Carbon\Carbon::parse($sponsor->tanggal_buka)->lte(now()->startOfDay()));
+                @endphp
+                <span class="text-xs font-semibold px-3 py-1 rounded-full flex-shrink-0 {{ $aktif ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-400' }}">
+                    {{ $aktif ? 'Aktif' : 'Tidak Aktif' }}
+                </span>
             </div>
 
             <div class="flex items-center justify-between">

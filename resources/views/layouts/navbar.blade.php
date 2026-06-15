@@ -53,7 +53,7 @@
                             </svg>
                         </button>
                         <div id="kontribusi-dropdown"
-                            style="display:none; position:fixed; margin-top:8px; width:192px; background:white; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.08); border:1px solid #e5e7eb; z-index:9999; overflow:hidden;">
+    style="display:none; position:absolute; top:100%; right:0; left:auto; margin-top:8px; width:192px; background:white; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.08); border:1px solid #e5e7eb; z-index:9999; overflow:hidden;">
                             <a href="{{ route('perusahaan.volunteer.create') }}"
                                class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-[#f0f2f8] transition">
                                 <svg class="w-4 h-4 text-[#4a6cf7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -209,12 +209,9 @@
 function toggleKontribusi() {
     const btn = document.querySelector('#kontribusi-wrapper button');
     const dropdown = document.getElementById('kontribusi-dropdown');
-    const rect = btn.getBoundingClientRect();
-    const isHidden = dropdown.style.display === 'none';
+    const isHidden = dropdown.style.display === 'none' || dropdown.style.display === '';
     if (isHidden) {
         dropdown.style.display = 'block';
-        dropdown.style.top = (rect.bottom + window.scrollY) + 'px';
-        dropdown.style.left = rect.left + 'px';
         document.getElementById('kontribusi-arrow').style.transform = 'rotate(180deg)';
     } else {
         dropdown.style.display = 'none';

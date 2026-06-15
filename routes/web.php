@@ -110,7 +110,8 @@ Route::middleware('auth')->group(function () {
 
         Route::delete('/proposal/{id}', [ProposalController::class, 'destroy'])
             ->name('proposal.destroy');
-
+        Route::get('/proposal/{id}/mou', [ProposalController::class, 'generateMou'])
+            ->name('organizer.proposal.mou');
          /*
         |--------------------------------------------------------------------------
         | VOLUNTEER — ORGANIZER (hanya bisa lihat & daftar)
@@ -183,6 +184,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/sponsor', [PerusahaanDashboard::class, 'sponsorIndex'])->name('sponsor.index');
     Route::get('/sponsor/{id}/edit', [PerusahaanDashboard::class, 'editSponsor'])->name('sponsor.edit');
     Route::put('/sponsor/{id}', [PerusahaanDashboard::class, 'updateSponsor'])->name('sponsor.update');
+    Route::get('/laporan-pengeluaran/export', [LaporanPengeluaranController::class, 'export'])->name('laporan-pengeluaran.export');
     });
 
     /*

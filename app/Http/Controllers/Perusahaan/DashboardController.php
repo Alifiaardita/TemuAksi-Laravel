@@ -29,9 +29,7 @@ class DashboardController extends Controller
     $proposalMenunggu  = (clone $proposalQuery)
                             ->where('status', 'terkirim')
                             ->count();
-    $totalDisalurkan   = (clone $proposalQuery)
-                            ->whereIn('status', ['pendanaan', 'selesai'])
-                            ->sum('target_dana');
+    $totalDisalurkan   = \App\Models\Pendanaan::where('perusahaan_id', $userId)->sum('jumlah_dana');
     $proposalTerbaru   = (clone $proposalQuery)
                             ->with('sponsor')
                             ->latest()
@@ -99,17 +97,29 @@ public function sponsorIndex()
             'min_dana'    => 'required|integer|min:0',
             'max_dana'    => 'required|integer|min:0',
             'lokasi'      => 'nullable|string|max:100',
+            'tanggal_buka'  => 'nullable|date',
+            'tanggal_tutup' => 'nullable|date|after_or_equal:tanggal_buka',
+            'wilayah'  => 'nullable|string|max:100',
+            'syarat'   => 'nullable|array',
+            'dokumen'  => 'nullable|array',
+            'benefit'  => 'nullable|array',
         ]);
 
         Sponsor::create([
-            'user_id'     => Auth::id(),
-            'nama'        => $request->nama,
-            'industri'    => $request->industri,
-            'deskripsi'   => $request->deskripsi,
-            'kategori_id' => $request->kategori_id,
-            'min_dana'    => $request->min_dana,
-            'max_dana'    => $request->max_dana,
-            'lokasi'      => $request->lokasi,
+            'user_id'       => Auth::id(),
+            'nama'          => $request->nama,
+            'industri'      => $request->industri,
+            'deskripsi'     => $request->deskripsi,
+            'kategori_id'   => $request->kategori_id,
+            'min_dana'      => $request->min_dana,
+            'max_dana'      => $request->max_dana,
+            'lokasi'        => $request->lokasi,
+            'tanggal_buka'  => $request->tanggal_buka,
+            'tanggal_tutup' => $request->tanggal_tutup,
+            'wilayah'  => $request->wilayah,
+            'syarat'   => $request->syarat,
+            'dokumen'  => $request->dokumen,
+            'benefit'  => $request->benefit,
         ]);
 
         return redirect()
@@ -122,9 +132,14 @@ public function sponsorIndex()
     $user = auth()->user();
 
     $sponsor = Sponsor::where('user_id', $user->id)->findOrFail($id);
-    $kategoriList = KategoriEvent::all(); // sesuaikan nama model
+    $kategoriList = KategoriEvent::all();
 
-    return view('perusahaan.edit_sponsor', compact('sponsor', 'kategoriList'));
+    $proposals = Proposal::with('user')
+        ->where('sponsor_id', $sponsor->id)
+        ->latest()
+        ->get();
+
+    return view('perusahaan.edit_sponsor', compact('sponsor', 'kategoriList', 'proposals'));
 }
 
 public function updateSponsor(Request $request, $id)
@@ -134,13 +149,19 @@ public function updateSponsor(Request $request, $id)
     $sponsor = Sponsor::where('user_id', $user->id)->findOrFail($id);
 
     $sponsor->update($request->validate([
-        'nama'       => 'required|string|max:255',
-        'industri'   => 'required|string|max:255',
-        'deskripsi'  => 'required|string',
-        'kategori_id'=> 'required|integer',
-        'min_dana'   => 'required|numeric',
-        'max_dana'   => 'required|numeric',
-        'lokasi'     => 'nullable|string|max:255',
+        'nama'          => 'required|string|max:255',
+        'industri'      => 'required|string|max:255',
+        'deskripsi'     => 'required|string',
+        'kategori_id'   => 'required|integer',
+        'min_dana'      => 'required|numeric',
+        'max_dana'      => 'required|numeric',
+        'lokasi'        => 'nullable|string|max:255',
+        'tanggal_buka'  => 'nullable|date',
+        'tanggal_tutup' => 'nullable|date|after_or_equal:tanggal_buka',
+        'wilayah'  => 'nullable|string|max:100',
+        'syarat'   => 'nullable|array',
+        'dokumen'  => 'nullable|array',
+        'benefit'  => 'nullable|array',
     ]));
 
     return redirect()->route('perusahaan.sponsor.index')->with('success', 'Sponsor berhasil diperbarui.');

@@ -17,7 +17,7 @@ class DashboardController extends Controller
 
         $perusahaan = User::where('role', 'perusahaan')
             ->with('companyProfile')
-            ->withSum('pendanaan', 'jumlah_dana')
+            ->withSum('pendanaan as total_dana', 'jumlah_dana')
             ->latest()
             ->take(10)
             ->get();
@@ -38,13 +38,16 @@ class DashboardController extends Controller
 
         $users = User::latest()->get();
 
-        $chartLabels = [];
+        $chartLabels = [
+            'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
+            'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'
+        ];
+
         $chartData = [];
-        for ($i = 5; $i >= 0; $i--) {
-            $bulan = Carbon::now()->subMonths($i);
-            $chartLabels[] = $bulan->translatedFormat('M');
-            $chartData[] = VolunteerKegiatan::whereYear('created_at', $bulan->year)
-                ->whereMonth('created_at', $bulan->month)
+
+        for ($month = 1; $month <= 12; $month++) {
+            $chartData[] = VolunteerKegiatan::whereYear('tanggal_mulai', now()->year)
+                ->whereMonth('tanggal_mulai', $month)
                 ->count();
         }
 

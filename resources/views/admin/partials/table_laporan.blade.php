@@ -30,7 +30,11 @@
             </td>
 
             <td>
-                Rp {{ number_format($row->target_dana,0,',','.') }}
+                @if(in_array($row->status, ['pendanaan', 'selesai']))
+                    Rp {{ number_format($row->pendanaan->jumlah_dana ?? 0, 0, ',', '.') }}
+                @else
+                    Rp {{ number_format($row->target_dana, 0, ',', '.') }}
+                @endif
             </td>
 
         </tr>
