@@ -30,8 +30,8 @@ class DashboardController extends Controller
                             ->where('status', 'terkirim')
                             ->count();
     $totalDisalurkan    = \App\Models\Pendanaan::where('perusahaan_id', $userId)
-                            ->whereMonth('created_at', now()->month)
-                            ->whereYear('created_at', now()->year)
+                            ->whereMonth('tanggal', now()->month)
+                            ->whereYear('tanggal', now()->year)
                             ->sum('jumlah_dana');
     $proposalTerbaru    = (clone $proposalQuery)
                             ->with('sponsor')
