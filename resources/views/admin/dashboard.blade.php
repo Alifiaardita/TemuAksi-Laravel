@@ -31,7 +31,7 @@
         <p class="text-xs text-gray-500 mb-1">👤 Akun Aktif</p>
         <h2 class="text-3xl font-medium">{{ $akunAktif }}</h2>
         <span class="inline-block mt-2 text-xs px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-600">
-            {{ $akunAktif - $perusahaanAktif }} organizer
+            {{ $jumlahOrganizer }} organizer
         </span>
     </div>
 
