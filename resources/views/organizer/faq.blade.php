@@ -16,7 +16,7 @@
             </div>
             <h1 class="text-3xl font-bold text-gray-900">Frequently Asked Questions</h1>
         </div>
-        <p class="text-gray-500 ml-[52px]">Temukan jawaban seputar penggunaan platform, event, dan volunteer.</p>
+        <p class="text-gray-500 ml-13">Temukan jawaban seputar penggunaan platform, event, dan volunteer.</p>
     </div>
 
     <div class="grid md:grid-cols-5 gap-6">
@@ -38,19 +38,19 @@
 
                 <div class="mt-6 space-y-2.5">
                     <div class="flex items-center gap-2.5 text-sm text-gray-500">
-                        <svg class="w-4 h-4 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-blue-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                         </svg>
                         Jawaban cepat untuk pertanyaan umum
                     </div>
                     <div class="flex items-center gap-2.5 text-sm text-gray-500">
-                        <svg class="w-4 h-4 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-blue-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                         </svg>
                         Informasi kegiatan & volunteer
                     </div>
                     <div class="flex items-center gap-2.5 text-sm text-gray-500">
-                        <svg class="w-4 h-4 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-blue-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                         </svg>
                         Ajukan pertanyaan langsung ke tim
@@ -80,7 +80,7 @@
             <details class="group border border-gray-100 rounded-xl overflow-hidden">
                 <summary class="flex justify-between items-center cursor-pointer font-semibold text-gray-800 list-none px-5 py-4 hover:bg-gray-50 transition-colors">
                     Apa itu TemuAksi?
-                    <span class="w-7 h-7 rounded-full bg-gray-100 group-open:bg-blue-100 flex items-center justify-center flex-shrink-0 transition-colors">
+                    <span class="w-7 h-7 rounded-full bg-gray-100 group-open:bg-blue-100 flex items-center justify-center shrink-0 transition-colors">
                         <svg class="w-4 h-4 text-gray-500 group-open:text-blue-600 group-open:rotate-180 transition-all duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                         </svg>
@@ -94,7 +94,7 @@
             <details class="group border border-gray-100 rounded-xl overflow-hidden">
                 <summary class="flex justify-between items-center cursor-pointer font-semibold text-gray-800 list-none px-5 py-4 hover:bg-gray-50 transition-colors">
                     Bagaimana cara mendaftar?
-                    <span class="w-7 h-7 rounded-full bg-gray-100 group-open:bg-blue-100 flex items-center justify-center flex-shrink-0 transition-colors">
+                    <span class="w-7 h-7 rounded-full bg-gray-100 group-open:bg-blue-100 flex items-center justify-center shrink-0 transition-colors">
                         <svg class="w-4 h-4 text-gray-500 group-open:text-blue-600 group-open:rotate-180 transition-all duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                         </svg>
@@ -108,7 +108,7 @@
             <details class="group border border-gray-100 rounded-xl overflow-hidden">
                 <summary class="flex justify-between items-center cursor-pointer font-semibold text-gray-800 list-none px-5 py-4 hover:bg-gray-50 transition-colors">
                     Apakah kegiatan gratis?
-                    <span class="w-7 h-7 rounded-full bg-gray-100 group-open:bg-blue-100 flex items-center justify-center flex-shrink-0 transition-colors">
+                    <span class="w-7 h-7 rounded-full bg-gray-100 group-open:bg-blue-100 flex items-center justify-center shrink-0 transition-colors">
                         <svg class="w-4 h-4 text-gray-500 group-open:text-blue-600 group-open:rotate-180 transition-all duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                         </svg>
@@ -127,7 +127,7 @@
     <div
         x-show="openFaqForm"
         x-transition.opacity
-        class="fixed inset-0 bg-black/50 z-[999] flex items-center justify-center p-4"
+        class="fixed inset-0 bg-black/50 z-999 flex items-center justify-center p-4"
         style="display:none"
     >
         <div

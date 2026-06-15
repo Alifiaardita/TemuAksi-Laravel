@@ -39,9 +39,9 @@
                         </span>
                         <span class="px-3 py-1 rounded-full text-xs font-medium shadow-sm
                             @if($kegiatan->status == 'aktif') bg-green-500 text-white
-                            @elseif($kegiatan->status == 'penuh') bg-amber-500 text-white
-                            @elseif($kegiatan->status == 'selesai') bg-blue-500 text-white
-                            @else bg-red-500 text-white
+                            @elseif($kegiatan->status == 'penuh')
+                            @elseif($kegiatan->status == 'selesai')
+                            @else
                             @endif">
                             {{ ucfirst($kegiatan->status) }}
                         </span>

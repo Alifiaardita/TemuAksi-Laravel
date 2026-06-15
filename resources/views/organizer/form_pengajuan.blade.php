@@ -17,7 +17,7 @@
             </div>
             <h1 class="text-3xl font-bold text-gray-900">Form Pengajuan Proposal</h1>
         </div>
-        <p class="text-gray-500 ml-[52px]">Isi semua data dengan lengkap dan benar.</p>
+        <p class="text-gray-500 ml-13">Isi semua data dengan lengkap dan benar.</p>
     </div>
 
     {{-- Card --}}

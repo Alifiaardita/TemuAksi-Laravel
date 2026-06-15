@@ -21,7 +21,7 @@
                 <p class="text-3xl font-semibold" style="color: #081F5C;">{{ $proposalDidanai ?? 0 }}</p>
             </div>
         </div>
-        
+
         {{-- TABEL --}}
 <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
 
@@ -204,8 +204,8 @@
         {{-- Header --}}
         <div style="background:#4A6FA5; padding:16px 24px; border-radius:16px 16px 0 0; display:flex; align-items:center; justify-content:space-between; flex-shrink:0;">
             <h2 style="color:white; font-size:15px; font-weight:600; margin:0;">Detail proposal</h2>
-            <button 
-                onclick="closeDetailProposalModal()" 
+            <button
+                onclick="closeDetailProposalModal()"
                 type="button"
                 style="background:none; border:none; color:white; font-size:28px; cursor:pointer; line-height:1; padding:0; width:32px; height:32px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                 &times;
@@ -257,7 +257,7 @@
 {{-- MODAL PENDANAAN --}}
 <div id="modalPendanaan" class="fixed inset-0" style="display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.4); z-index:9999;">
     <div style="background:white; border-radius:16px; width:100%; max-width:460px; box-shadow:0 10px 40px rgba(0,0,0,0.15); display:flex; flex-direction:column;">
-        
+
         <div style="background:#4A6FA5; padding:16px 24px; border-radius:16px 16px 0 0; display:flex; align-items:center; justify-content:space-between;">
             <h2 style="color:white; font-size:15px; font-weight:600; margin:0;">Form Pendanaan</h2>
             <button onclick="closePendanaan()" type="button"
@@ -306,6 +306,40 @@
         <iframe id="pdfFrame" class="w-full h-full rounded-xl"></iframe>
     </div>
 </div>
+
+@push('scripts')
+<script>
+function lihatDetail(id, perusahaan, judul, deskripsi, kategori, lokasi, tanggal, target, status) {
+    document.getElementById('dPerusahaan').innerText = perusahaan;
+    document.getElementById('dJudul').innerText      = judul;
+    document.getElementById('dDeskripsi').innerText  = deskripsi;
+    document.getElementById('dKategori').innerText   = kategori;
+    document.getElementById('dLokasi').innerText     = lokasi;
+    document.getElementById('dTanggal').innerText    = tanggal;
+    document.getElementById('dTarget').innerText     = target;
+
+    document.getElementById('modalDetail').classList.remove('hidden');
+    document.getElementById('modalDetail').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('modalDetail').classList.add('hidden');
+    document.getElementById('modalDetail').style.display = '';
+}
+
+function lihatPDF(file) {
+    document.getElementById('pdfFrame').src = '/storage/' + file;
+    document.getElementById('modalPDF').classList.remove('hidden');
+    document.getElementById('modalPDF').style.display = 'flex';
+}
+
+function closePDF() {
+    document.getElementById('pdfFrame').src = '';
+    document.getElementById('modalPDF').classList.add('hidden');
+    document.getElementById('modalPDF').style.display = '';
+}
+</script>
+@endpush
 
 @endsection
 
@@ -371,7 +405,7 @@ function bukaPendanaan(proposalId) {
     // set proposal id dan token ke form pendanaan
     document.getElementById('pendanaanProposalId').value = proposalId;
     document.getElementById('pendanaanToken').value = document.querySelector('meta[name="csrf-token"]').content;
-    
+
     // set action form ke route setujui
     document.getElementById('formPendanaan').action = currentRouteSetujui;
 

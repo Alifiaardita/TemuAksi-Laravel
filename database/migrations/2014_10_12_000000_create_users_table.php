@@ -15,7 +15,7 @@ return new class extends Migration
     $table->bigIncrements('id');
     $table->string('email', 255)->unique();
     $table->string('password_hash', 255);
-    $table->enum('role', ['individu', 'perusahaan', 'admin']);
+    $table->enum('role', ['organizer', 'perusahaan', 'admin']);
     $table->boolean('is_verified')->default(0);
     $table->boolean('is_active')->default(1);
     $table->enum('status', ['aktif', 'suspend', 'blokir'])->default('aktif');
