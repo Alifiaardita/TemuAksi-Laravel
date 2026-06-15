@@ -164,7 +164,16 @@
                             Benefit
                         </h3>
                         <div class="text-sm text-gray-600 whitespace-pre-line leading-relaxed">
-                            {{ $kegiatan->benefit ?: '-' }}
+                            @if($kegiatan->benefit)
+                                @php $benefits = is_array($kegiatan->benefit) ? $kegiatan->benefit : json_decode($kegiatan->benefit, true); @endphp
+                                <ul class="list-disc list-inside space-y-1">
+                                    @foreach($benefits as $item)
+                                        <li>{{ $item }}</li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                -
+                            @endif
                         </div>
                     </div>
 

@@ -204,7 +204,7 @@
             PIHAK KEDUA sepakat untuk memberikan dana kepada PIHAK PERTAMA sebesar:
         </p>
         <p class="target-dana">
-            Rp {{ number_format(optional($proposal->pendanaan->last())->jumlah_dana ?? 0, 0, ',', '.') }}
+            Rp {{ number_format(optional($proposal->pendanaan()->latest()->first())->jumlah_dana ?? 0, 0, ',', '.') }}
         </p>
         <p>
             untuk digunakan sepenuhnya dalam mendukung pelaksanaan program/kegiatan
