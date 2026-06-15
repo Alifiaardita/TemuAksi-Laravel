@@ -33,7 +33,7 @@
                 <nav class="hidden md:flex items-center gap-1">
                     <a href="{{ route('perusahaan.dashboard') }}"
                        class="px-4 py-2 rounded-full text-sm font-medium transition
-                       {{ request()->routeIs('perusahaan.dashboard') ? 'bg-[#0f1e45] text-white' : 'text-gray-500 hover:text-[#0f1e45] hover:bg-[#f0f2f8]' }}">
+                       {{ request()->routeIs('perusahaan.dashboard') || request()->routeIs('perusahaan.volunteer.index') || request()->routeIs('perusahaan.volunteer.peserta') ? 'bg-[#0f1e45] text-white' : 'text-gray-500 hover:text-[#0f1e45] hover:bg-[#f0f2f8]' }}">
                         Home
                     </a>
                     <a href="{{ route('perusahaan.proposal.index') }}"
@@ -46,14 +46,14 @@
                     <div class="relative" id="kontribusi-wrapper">
                         <button onclick="toggleKontribusi()"
                             class="flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition
-                            {{ request()->routeIs('perusahaan.volunteer.*') || request()->routeIs('perusahaan.sponsor.*') ? 'bg-[#0f1e45] text-white' : 'text-gray-500 hover:text-[#0f1e45] hover:bg-[#f0f2f8]' }}">
+                            {{ request()->routeIs('perusahaan.volunteer.create') || request()->routeIs('perusahaan.sponsor.*') ? 'bg-[#0f1e45] text-white' : 'text-gray-500 hover:text-[#0f1e45] hover:bg-[#f0f2f8]' }}">
                             Kontribusi
                             <svg id="kontribusi-arrow" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
                         <div id="kontribusi-dropdown"
-    style="display:none; position:absolute; top:100%; right:0; left:auto; margin-top:8px; width:192px; background:white; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.08); border:1px solid #e5e7eb; z-index:9999; overflow:hidden;">
+                             style="display:none; position:absolute; top:100%; right:0; left:auto; margin-top:8px; width:192px; background:white; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.08); border:1px solid #e5e7eb; z-index:9999; overflow:hidden;">
                             <a href="{{ route('perusahaan.volunteer.create') }}"
                                class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-[#f0f2f8] transition">
                                 <svg class="w-4 h-4 text-[#4a6cf7] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,8 +139,6 @@
                 <div class="relative">
                     <button onclick="toggleDropdown()"
                         class="flex items-center gap-2 bg-[#f0f2f8] text-[#0f1e45] px-3 py-2 rounded-full hover:bg-[#e4e8ff] transition">
-
-                        {{-- Avatar --}}
                         <div class="w-7 h-7 rounded-full overflow-hidden bg-[#4a6cf7] flex items-center justify-center flex-shrink-0">
                             @if(auth()->user()->isPerusahaan() && auth()->user()->companyProfile?->logo)
                                 <img src="{{ asset('storage/' . auth()->user()->companyProfile->logo) }}" class="w-full h-full object-cover">
@@ -152,7 +150,6 @@
                                 </svg>
                             @endif
                         </div>
-
                         <span class="text-sm font-semibold max-w-[120px] truncate">
                             @if(auth()->user()->isPerusahaan())
                                 {{ auth()->user()->companyProfile?->nama_perusahaan ?? 'Perusahaan' }}
@@ -162,7 +159,6 @@
                                 {{ auth()->user()->userProfile?->nama_lengkap ?? auth()->user()->name }}
                             @endif
                         </span>
-
                         <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
@@ -207,7 +203,6 @@
 
 <script>
 function toggleKontribusi() {
-    const btn = document.querySelector('#kontribusi-wrapper button');
     const dropdown = document.getElementById('kontribusi-dropdown');
     const isHidden = dropdown.style.display === 'none' || dropdown.style.display === '';
     if (isHidden) {

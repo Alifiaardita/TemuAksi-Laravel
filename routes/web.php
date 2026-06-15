@@ -185,6 +185,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/sponsor/{id}/edit', [PerusahaanDashboard::class, 'editSponsor'])->name('sponsor.edit');
     Route::put('/sponsor/{id}', [PerusahaanDashboard::class, 'updateSponsor'])->name('sponsor.update');
     Route::get('/laporan-pengeluaran/export', [LaporanPengeluaranController::class, 'export'])->name('laporan-pengeluaran.export');
+    Route::get('/volunteer', [\App\Http\Controllers\Perusahaan\VolunteerPerusahaanController::class, 'index'])
+    ->name('volunteer.index');
     });
 
     /*

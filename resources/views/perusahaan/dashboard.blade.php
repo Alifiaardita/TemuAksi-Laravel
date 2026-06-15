@@ -58,7 +58,7 @@
                 </div>
             </div>
             <p class="text-4xl font-bold text-gray-900">{{ $totalProposal ?? 0 }}</p>
-            <p class="text-xs text-green-500 mt-1">+{{ $proposalMingguIni ?? 0 }} minggu ini</p>
+            <p class="text-xs text-green-500 mt-1">+{{ $proposalMingguIni ?? 0 }} proposal masuk minggu ini</p>
         </div>
 
         {{-- Menunggu Review --}}
@@ -88,7 +88,7 @@
             <p class="text-4xl font-bold text-gray-900">
                 {{ $totalDisalurkan >= 1000000 ? number_format($totalDisalurkan, 0, ',', '.')  : number_format($totalDisalurkan ?? 0, 0, ',', '.') }}
             </p>
-            <p class="text-xs text-gray-400 mt-1">Rp sepanjang {{ now()->year }}</p>
+            <p class="text-xs text-gray-400 mt-1">Rp bulan ini</p>
         </div>
 
         {{-- Volunteer Aktif --}}
@@ -212,8 +212,10 @@
 
 <!-- PROGRAM VOLUNTEER AKTIF + TIPS -->
 <section class="max-w-6xl mx-auto px-6 mb-8">
-    <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4">Program Volunteer Aktif</p>
-
+    <div class="flex items-center justify-between mb-4">
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Program Volunteer Aktif</p>
+        <a href="{{ route('perusahaan.volunteer.index') }}" class="text-sm text-cornflower hover:underline">Lihat semua →</a>
+    </div>
     {{-- Grid Volunteer --}}
     <div class="grid md:grid-cols-2 gap-4 mb-4">
         @forelse($volunteerAktifList ?? [] as $kegiatan)
@@ -240,7 +242,6 @@
                 </div>
                 <span class="text-xs font-semibold px-3 py-1 rounded-full bg-green-100 text-green-600 flex-shrink-0">Aktif</span>
             </div>
-
             {{-- Progress Bar --}}
             <div class="w-full bg-gray-100 rounded-full h-2 mb-2">
                 <div class="bg-cornflower h-2 rounded-full transition-all duration-500"
@@ -252,7 +253,7 @@
             </div>
             <div class="mt-3 pt-3 border-t border-gray-100">
                 <a href="{{ route('perusahaan.volunteer.peserta', $kegiatan->id) }}"
-                    class="text-xs text-cornflower hover:underline font-medium">
+                   class="text-xs text-cornflower hover:underline font-medium">
                     Lihat peserta →
                 </a>
             </div>
@@ -262,9 +263,6 @@
             Belum ada program volunteer aktif.
         </div>
         @endforelse
-    </div>
-
-    
     </div>
 </section>
 

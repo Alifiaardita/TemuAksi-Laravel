@@ -111,4 +111,27 @@ class VolunteerPerusahaanController extends Controller
 
         return view('perusahaan.peserta_volunteer', compact('kegiatan', 'pesertaList'));
     }
+    public function index(Request $request)
+    {
+        $query = VolunteerKegiatan::with('kategori')
+            ->withCount('pendaftaran')
+            ->where('created_by', Auth::id());
+
+        if ($request->filled('search')) {
+            $query->where('judul', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('kategori')) {
+            $query->where('kategori_id', $request->kategori);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $volunteerList = $query->latest()->paginate(10)->withQueryString();
+        $kategoriList = KategoriEvent::all();
+
+        return view('perusahaan.list_volunteer', compact('volunteerList', 'kategoriList'));
+    }
 }

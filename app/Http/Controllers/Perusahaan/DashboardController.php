@@ -22,15 +22,18 @@ class DashboardController extends Controller
         $q->where('user_id', $userId);
     });
 
-    $totalProposal     = $proposalQuery->count();
-    $proposalMingguIni = (clone $proposalQuery)
+    $totalProposal      = $proposalQuery->count();
+    $proposalMingguIni  = (clone $proposalQuery)
                             ->whereBetween('created_at', [now()->startOfWeek(), now()])
                             ->count();
-    $proposalMenunggu  = (clone $proposalQuery)
+    $proposalMenunggu   = (clone $proposalQuery)
                             ->where('status', 'terkirim')
                             ->count();
-    $totalDisalurkan   = \App\Models\Pendanaan::where('perusahaan_id', $userId)->sum('jumlah_dana');
-    $proposalTerbaru   = (clone $proposalQuery)
+    $totalDisalurkan    = \App\Models\Pendanaan::where('perusahaan_id', $userId)
+                            ->whereMonth('created_at', now()->month)
+                            ->whereYear('created_at', now()->year)
+                            ->sum('jumlah_dana');
+    $proposalTerbaru    = (clone $proposalQuery)
                             ->with('sponsor')
                             ->latest()
                             ->take(4)
