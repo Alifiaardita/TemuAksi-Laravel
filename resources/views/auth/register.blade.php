@@ -198,7 +198,7 @@
         }
 
         function backToRole() {
-            document.getElementById('form-organizer').classList.add('hidden');
+            document.getElementById('form-individu').classList.add('hidden');
             document.getElementById('form-perusahaan').classList.add('hidden');
             document.getElementById('step-role').classList.remove('hidden');
             document.getElementById('back-button').classList.add('hidden');
