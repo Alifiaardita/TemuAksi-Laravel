@@ -249,7 +249,7 @@
                     </div>
                     <div>
                         <p class="text-sm font-bold text-gray-800">{{ $kegiatan->judul }}</p>
-                        <p class="text-xs text-gray-400 mt-0.5">Deadline: {{ \Carbon\Carbon::parse($kegiatan->tanggal_selesai)->translatedFormat('d F Y') }}</p>
+                        <p class="text-xs text-gray-400 mt-0.5">Deadline: {{ \Carbon\Carbon::parse($kegiatan->deadline_daftar)->translatedFormat('d F Y') }}</p>
                     </div>
                 </div>
                 <span class="text-xs font-semibold px-3 py-1 rounded-full bg-green-100 text-green-600 flex-shrink-0">Aktif</span>
