@@ -22,7 +22,7 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('perusahaan.sponsor.store') }}" class="space-y-5">
+        <form id="sponsor-form" method="POST" action="{{ route('perusahaan.sponsor.store') }}" class="space-y-5" novalidate>
             @csrf
 
             {{-- Card 1: Info Program --}}
@@ -33,19 +33,23 @@
                 </h2>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Nama program <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                        Nama program <span class="text-red-500">*</span>
+                    </label>
                     <input type="text" name="nama" value="{{ old('nama') }}"
                         placeholder="cth: Open Sponsorship Festival Inovasi 2025"
-                        class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition"
-                        required>
+                        class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition">
+                    <p id="error-nama" class="text-red-500 text-xs mt-1 hidden">Nama program wajib diisi.</p>
+                    @error('nama') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Kategori acara <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Kategori acara <span class="text-red-500">*</span>
+                        </label>
                         <select name="kategori_id"
-                            class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition"
-                            required>
+                            class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition">
                             <option value="">— Pilih kategori —</option>
                             @foreach($kategori as $k)
                                 <option value="{{ $k->id }}" {{ old('kategori_id') == $k->id ? 'selected' : '' }}>
@@ -53,6 +57,8 @@
                                 </option>
                             @endforeach
                         </select>
+                        <p id="error-kategori_id" class="text-red-500 text-xs mt-1 hidden">Kategori acara wajib dipilih.</p>
+                        @error('kategori_id') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1.5">Industri</label>
@@ -70,11 +76,14 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Deskripsi program <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                        Deskripsi program <span class="text-red-500">*</span>
+                    </label>
                     <textarea name="deskripsi" rows="4"
                         placeholder="Jelaskan tujuan program, siapa yang bisa melamar, dan apa yang diharapkan perusahaan dari mitra..."
-                        class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition resize-none"
-                        required>{{ old('deskripsi') }}</textarea>
+                        class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition resize-none">{{ old('deskripsi') }}</textarea>
+                    <p id="error-deskripsi" class="text-red-500 text-xs mt-1 hidden">Deskripsi program wajib diisi.</p>
+                    @error('deskripsi') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
             </div>
 
@@ -92,14 +101,14 @@
                     <div class="flex items-center gap-3">
                         <input type="text" name="min_dana" value="{{ old('min_dana') }}"
                             placeholder="Minimal, cth: 5.000.000"
-                            class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition"
-                            required>
+                            class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition">
                         <span class="text-gray-400 text-sm flex-shrink-0">—</span>
                         <input type="text" name="max_dana" value="{{ old('max_dana') }}"
                             placeholder="Maksimal, cth: 50.000.000"
-                            class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition"
-                            required>
+                            class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition">
                     </div>
+                    <p id="error-min_dana" class="text-red-500 text-xs mt-1 hidden">Dana minimal wajib diisi.</p>
+                    <p id="error-max_dana" class="text-red-500 text-xs mt-1 hidden">Dana maksimal wajib diisi.</p>
                     <p class="text-xs text-gray-400 mt-1.5">Mitra dapat mengajukan dana di antara rentang ini</p>
                 </div>
             </div>
@@ -112,14 +121,22 @@
                 </h2>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Tanggal buka <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Tanggal buka <span class="text-red-500">*</span>
+                        </label>
                         <input type="date" name="tanggal_buka" value="{{ old('tanggal_buka') }}"
                             class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition">
+                        <p id="error-tanggal_buka" class="text-red-500 text-xs mt-1 hidden">Tanggal buka wajib diisi.</p>
+                        @error('tanggal_buka') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Deadline pengajuan <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Deadline pengajuan <span class="text-red-500">*</span>
+                        </label>
                         <input type="date" name="tanggal_tutup" value="{{ old('tanggal_tutup') }}"
                             class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition">
+                        <p id="error-tanggal_tutup" class="text-red-500 text-xs mt-1 hidden">Deadline pengajuan wajib diisi.</p>
+                        @error('tanggal_tutup') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
                 <div>
@@ -146,13 +163,13 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1.5">Syarat pengaju</label>
                     <textarea name="syarat_text" rows="3"
                         placeholder="Pisahkan setiap syarat dengan enter..."
-                        class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition"></textarea>
+                        class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition">{{ old('syarat_text') }}</textarea>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1.5">Dokumen wajib dilampirkan</label>
                     <textarea name="dokumen_text" rows="3"
                         placeholder="Pisahkan setiap dokumen dengan enter..."
-                        class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition"></textarea>
+                        class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition">{{ old('dokumen_text') }}</textarea>
                 </div>
             </div>
 
@@ -165,7 +182,7 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1.5">Benefit</label>
                     <textarea name="benefit_text" rows="3"
                         placeholder="Pisahkan setiap benefit dengan enter..."
-                        class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition"></textarea>
+                        class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition">{{ old('benefit_text') }}</textarea>
                 </div>
             </div>
 
@@ -187,7 +204,36 @@
 </div>
 
 <script>
+    document.getElementById('sponsor-form').addEventListener('submit', function (e) {
+        let isValid = true;
 
+        const requiredFields = [
+            { name: 'nama',          label: 'Nama program wajib diisi.' },
+            { name: 'kategori_id',   label: 'Kategori acara wajib dipilih.' },
+            { name: 'deskripsi',     label: 'Deskripsi program wajib diisi.' },
+            { name: 'min_dana',      label: 'Dana minimal wajib diisi.' },
+            { name: 'max_dana',      label: 'Dana maksimal wajib diisi.' },
+            { name: 'tanggal_buka',  label: 'Tanggal buka wajib diisi.' },
+            { name: 'tanggal_tutup', label: 'Deadline pengajuan wajib diisi.' },
+        ];
+
+        requiredFields.forEach(function (field) {
+            const input = document.querySelector(`[name="${field.name}"]`);
+            const errorEl = document.getElementById(`error-${field.name}`);
+            if (!input || !input.value.trim()) {
+                if (errorEl) errorEl.classList.remove('hidden');
+                isValid = false;
+            } else {
+                if (errorEl) errorEl.classList.add('hidden');
+            }
+        });
+
+        if (!isValid) {
+            e.preventDefault();
+            const firstError = document.querySelector('.text-red-500:not(.hidden)');
+            if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
+</script>
 
 @endsection
-

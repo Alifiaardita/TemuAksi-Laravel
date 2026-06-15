@@ -9,12 +9,14 @@
         <p class="text-sm text-gray-500 mt-1">Isi detail kegiatan yang membutuhkan volunteer</p>
     </div>
 
-    <form action="{{ route('perusahaan.volunteer.store') }}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-6">
+    <form id="volunteer-form" action="{{ route('perusahaan.volunteer.store') }}" method="POST" enctype="multipart/form-data" class="flex flex-col gap-6" novalidate>
         @csrf
 
         {{-- FOTO / BANNER --}}
         <div class="bg-white border border-gray-100 rounded-2xl p-6">
-            <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-4">Foto / banner kegiatan</p>
+            <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-4">
+                Foto / banner kegiatan <span class="text-red-500">*</span>
+            </p>
             <div id="drop-area"
                 class="border-2 border-dashed border-gray-200 rounded-xl p-8 text-center cursor-pointer bg-gray-50 hover:bg-gray-100 transition relative">
                 <input type="file" name="foto" id="foto-input" accept="image/*"
@@ -31,6 +33,7 @@
                     <p class="text-xs text-gray-400 mt-1">JPG, PNG — maks 5MB. Rekomendasi 1200×600px</p>
                 </div>
             </div>
+            <p id="error-foto" class="text-red-500 text-xs mt-1 hidden">Foto kegiatan wajib diisi.</p>
             @error('foto') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
@@ -39,10 +42,13 @@
             <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-4">Informasi kegiatan</p>
             <div class="flex flex-col gap-4">
                 <div>
-                    <label class="text-sm text-gray-500 block mb-1">Nama kegiatan</label>
+                    <label class="text-sm text-gray-500 block mb-1">
+                        Nama kegiatan <span class="text-red-500">*</span>
+                    </label>
                     <input type="text" name="nama_kegiatan" value="{{ old('nama_kegiatan') }}"
                         placeholder="Contoh: Festival Lingkungan Hidup 2026"
                         class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30">
+                    <p id="error-nama_kegiatan" class="text-red-500 text-xs mt-1 hidden">Nama kegiatan wajib diisi.</p>
                     @error('nama_kegiatan') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div>
@@ -53,30 +59,42 @@
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="text-sm text-gray-500 block mb-1">Tanggal mulai</label>
+                        <label class="text-sm text-gray-500 block mb-1">
+                            Tanggal mulai <span class="text-red-500">*</span>
+                        </label>
                         <input type="date" name="tanggal_mulai" value="{{ old('tanggal_mulai') }}"
                             class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30">
+                        <p id="error-tanggal_mulai" class="text-red-500 text-xs mt-1 hidden">Tanggal mulai wajib diisi.</p>
                         @error('tanggal_mulai') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
-                        <label class="text-sm text-gray-500 block mb-1">Tanggal selesai</label>
+                        <label class="text-sm text-gray-500 block mb-1">
+                            Tanggal selesai <span class="text-red-500">*</span>
+                        </label>
                         <input type="date" name="tanggal_selesai" value="{{ old('tanggal_selesai') }}"
                             class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30">
+                        <p id="error-tanggal_selesai" class="text-red-500 text-xs mt-1 hidden">Tanggal selesai wajib diisi.</p>
                         @error('tanggal_selesai') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
-                
+
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="text-sm text-gray-500 block mb-1">Jam mulai</label>
+                        <label class="text-sm text-gray-500 block mb-1">
+                            Jam mulai <span class="text-red-500">*</span>
+                        </label>
                         <input type="time" name="jam_mulai" value="{{ old('jam_mulai') }}"
                             class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30">
+                        <p id="error-jam_mulai" class="text-red-500 text-xs mt-1 hidden">Jam mulai wajib diisi.</p>
                         @error('jam_mulai') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
-                        <label class="text-sm text-gray-500 block mb-1">Jam selesai</label>
+                        <label class="text-sm text-gray-500 block mb-1">
+                            Jam selesai <span class="text-red-500">*</span>
+                        </label>
                         <input type="time" name="jam_selesai" value="{{ old('jam_selesai') }}"
                             class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30">
+                        <p id="error-jam_selesai" class="text-red-500 text-xs mt-1 hidden">Jam selesai wajib diisi.</p>
                         @error('jam_selesai') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
@@ -96,10 +114,13 @@
                         @error('kategori') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
-                        <label class="text-sm text-gray-500 block mb-1">Lokasi</label>
+                        <label class="text-sm text-gray-500 block mb-1">
+                            Lokasi <span class="text-red-500">*</span>
+                        </label>
                         <input type="text" name="lokasi" value="{{ old('lokasi') }}"
                             placeholder="Kota / Online"
                             class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30">
+                        <p id="error-lokasi" class="text-red-500 text-xs mt-1 hidden">Lokasi wajib diisi.</p>
                         @error('lokasi') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
@@ -112,24 +133,33 @@
             <div class="flex flex-col gap-4">
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="text-sm text-gray-500 block mb-1">Jumlah dibutuhkan</label>
+                        <label class="text-sm text-gray-500 block mb-1">
+                            Jumlah dibutuhkan <span class="text-red-500">*</span>
+                        </label>
                         <input type="number" name="jumlah_volunteer" value="{{ old('jumlah_volunteer') }}"
                             placeholder="Contoh: 20" min="1"
                             class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30">
+                        <p id="error-jumlah_volunteer" class="text-red-500 text-xs mt-1 hidden">Jumlah volunteer wajib diisi.</p>
                         @error('jumlah_volunteer') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <div>
-                        <label class="text-sm text-gray-500 block mb-1">Deadline daftar</label>
+                        <label class="text-sm text-gray-500 block mb-1">
+                            Deadline daftar <span class="text-red-500">*</span>
+                        </label>
                         <input type="date" name="deadline_daftar" value="{{ old('deadline_daftar') }}"
                             class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30">
+                        <p id="error-deadline_daftar" class="text-red-500 text-xs mt-1 hidden">Deadline daftar wajib diisi.</p>
                         @error('deadline_daftar') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
                 <div>
-                    <label class="text-sm text-gray-500 block mb-1">Divisi / posisi yang dibuka</label>
+                    <label class="text-sm text-gray-500 block mb-1">
+                        Divisi / posisi yang dibuka <span class="text-red-500">*</span>
+                    </label>
                     <input type="text" name="divisi" value="{{ old('divisi') }}"
                         placeholder="Contoh: Dokumentasi, Humas, Acara"
                         class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30">
+                    <p id="error-divisi" class="text-red-500 text-xs mt-1 hidden">Divisi wajib diisi.</p>
                     @error('divisi') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div>
@@ -168,14 +198,19 @@
             <p class="text-xs font-medium text-gray-400 uppercase tracking-widest mb-4">Kontak & Berkas</p>
             <div class="flex flex-col gap-4">
                 <div>
-                    <label class="text-sm text-gray-500 block mb-1">Kontak person</label>
+                    <label class="text-sm text-gray-500 block mb-1">
+                        Kontak person <span class="text-red-500">*</span>
+                    </label>
                     <input type="text" name="kontak" value="{{ old('kontak') }}"
                         placeholder="Nomor WA / email PIC"
                         class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30">
+                    <p id="error-kontak" class="text-red-500 text-xs mt-1 hidden">Kontak person wajib diisi.</p>
                     @error('kontak') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div>
-                    <label class="text-sm text-gray-500 block mb-1">Guidebook <span class="text-gray-400">(opsional)</span></label>
+                    <label class="text-sm text-gray-500 block mb-1">
+                        Guidebook <span class="text-gray-400">(opsional)</span>
+                    </label>
                     <input type="file" name="guidebook" accept=".pdf,.doc,.docx"
                         class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-500 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-cornflower/10 file:text-cornflower cursor-pointer focus:outline-none focus:ring-2 focus:ring-cornflower/30">
                     <p class="text-xs text-gray-400 mt-1">Format: PDF, DOC, DOCX</p>
@@ -183,28 +218,30 @@
                 </div>
             </div>
         </div>
-                {{-- TOMBOL --}}
-                <div class="flex justify-end gap-3 pb-6">
-                    <a href="{{ route('perusahaan.dashboard') }}"
-                        class="px-6 py-2.5 text-sm text-gray-500 border border-gray-200 rounded-xl hover:bg-gray-50 transition">
-                        Batal
-                    </a>
-                    <button type="submit"
-                        class="px-6 py-2.5 text-sm font-medium bg-cornflower text-white rounded-xl hover:opacity-90 transition">
-                        Kirim
-                    </button>
-                </div>
 
-            </form>
+        {{-- TOMBOL --}}
+        <div class="flex justify-end gap-3 pb-6">
+            <a href="{{ route('perusahaan.dashboard') }}"
+                class="px-6 py-2.5 text-sm text-gray-500 border border-gray-200 rounded-xl hover:bg-gray-50 transition">
+                Batal
+            </a>
+            <button type="submit"
+                class="px-6 py-2.5 text-sm font-medium bg-cornflower text-white rounded-xl hover:opacity-90 transition">
+                Kirim
+            </button>
         </div>
+    </form>
+</div>
+
 @push('scripts')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-    flatpickr("input[name='jam_mulai']", { ... });
-    flatpickr("input[name='jam_selesai']", { ... });
+    flatpickr("input[name='jam_mulai']", {});
+    flatpickr("input[name='jam_selesai']", {});
 </script>
 <script>
+    // Preview foto
     const fotoInput = document.getElementById('foto-input');
     const fotoPreview = document.getElementById('foto-preview');
     const fotoPlaceholder = document.getElementById('foto-placeholder');
@@ -220,6 +257,52 @@
                 fotoPlaceholder.classList.add('hidden');
             };
             reader.readAsDataURL(file);
+        }
+    });
+
+    // JS Validation
+    document.getElementById('volunteer-form').addEventListener('submit', function (e) {
+        let isValid = true;
+
+        // Field wajib bertipe text/number/date/time
+        const requiredFields = [
+            { name: 'nama_kegiatan',     label: 'Nama kegiatan wajib diisi.' },
+            { name: 'tanggal_mulai',     label: 'Tanggal mulai wajib diisi.' },
+            { name: 'tanggal_selesai',   label: 'Tanggal selesai wajib diisi.' },
+            { name: 'jam_mulai',         label: 'Jam mulai wajib diisi.' },
+            { name: 'jam_selesai',       label: 'Jam selesai wajib diisi.' },
+            { name: 'lokasi',            label: 'Lokasi wajib diisi.' },
+            { name: 'jumlah_volunteer',  label: 'Jumlah volunteer wajib diisi.' },
+            { name: 'deadline_daftar',   label: 'Deadline daftar wajib diisi.' },
+            { name: 'divisi',            label: 'Divisi wajib diisi.' },
+            { name: 'kontak',            label: 'Kontak person wajib diisi.' },
+        ];
+
+        requiredFields.forEach(function (field) {
+            const input = document.querySelector(`[name="${field.name}"]`);
+            const errorEl = document.getElementById(`error-${field.name}`);
+            if (!input || !input.value.trim()) {
+                if (errorEl) errorEl.classList.remove('hidden');
+                isValid = false;
+            } else {
+                if (errorEl) errorEl.classList.add('hidden');
+            }
+        });
+
+        // Cek foto
+        const fotoErrorEl = document.getElementById('error-foto');
+        if (!fotoInput.files || fotoInput.files.length === 0) {
+            fotoErrorEl.classList.remove('hidden');
+            isValid = false;
+        } else {
+            fotoErrorEl.classList.add('hidden');
+        }
+
+        if (!isValid) {
+            e.preventDefault();
+            // Scroll ke error pertama
+            const firstError = document.querySelector('.text-red-500:not(.hidden)');
+            if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     });
 </script>
