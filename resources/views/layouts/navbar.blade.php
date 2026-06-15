@@ -33,7 +33,7 @@
                 <nav class="hidden md:flex items-center gap-1">
                     <a href="{{ route('perusahaan.dashboard') }}"
                        class="px-4 py-2 rounded-full text-sm font-medium transition
-                       {{ request()->routeIs('perusahaan.dashboard') || request()->routeIs('perusahaan.volunteer.index') || request()->routeIs('perusahaan.volunteer.peserta') ? 'bg-[#0f1e45] text-white' : 'text-gray-500 hover:text-[#0f1e45] hover:bg-[#f0f2f8]' }}">
+                       {{ request()->routeIs('perusahaan.dashboard') || request()->routeIs('perusahaan.volunteer.index') || request()->routeIs('perusahaan.volunteer.peserta') || request()->routeIs('perusahaan.sponsor.index') || request()->routeIs('perusahaan.sponsor.edit') ? 'bg-[#0f1e45] text-white' : 'text-gray-500 hover:text-[#0f1e45] hover:bg-[#f0f2f8]' }}">
                         Home
                     </a>
                     <a href="{{ route('perusahaan.proposal.index') }}"
@@ -46,7 +46,7 @@
                     <div class="relative" id="kontribusi-wrapper">
                         <button onclick="toggleKontribusi()"
                             class="flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition
-                            {{ request()->routeIs('perusahaan.volunteer.create') || request()->routeIs('perusahaan.sponsor.*') ? 'bg-[#0f1e45] text-white' : 'text-gray-500 hover:text-[#0f1e45] hover:bg-[#f0f2f8]' }}">
+                            {{ request()->routeIs('perusahaan.volunteer.create') || request()->routeIs('perusahaan.sponsor.create') ? 'bg-[#0f1e45] text-white' : 'text-gray-500 hover:text-[#0f1e45] hover:bg-[#f0f2f8]' }}">
                             Kontribusi
                             <svg id="kontribusi-arrow" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
