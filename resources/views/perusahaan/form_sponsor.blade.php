@@ -196,6 +196,7 @@
     </div>
 </div>
 
+@endsection
 @push('scripts')
 <script>
     var syarats  = ['Organisasi/komunitas terdaftar resmi', 'Acara dilaksanakan di wilayah Indonesia'];
