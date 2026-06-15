@@ -191,20 +191,6 @@
                 </div>
             </a>
 
-            <!-- Export Laporan -->
-            <a href=""
-                class="flex items-start gap-3 p-4 rounded-xl hover:bg-gray-50 transition group">
-                <div class="w-10 h-10 bg-cornflower rounded-xl flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                    </svg>
-                </div>
-                <div>
-                    <p class="text-sm font-semibold text-gray-800 group-hover:text-cornflower transition">Export Laporan</p>
-                    <p class="text-xs text-gray-400 mt-0.5">Unduh rekap pendanaan PDF/Excel</p>
-                </div>
-            </a>
-
             <!-- Edit Profil -->
             <a href="{{ route('perusahaan.profil') }}"
                 class="flex items-start gap-3 p-4 rounded-xl hover:bg-gray-50 transition group">
