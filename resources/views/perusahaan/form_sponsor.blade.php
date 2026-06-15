@@ -146,16 +146,13 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1.5">Syarat pengaju</label>
                     <textarea name="syarat_text" rows="3"
                         placeholder="Pisahkan setiap syarat dengan enter..."
-                        class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition">Organisasi/komunitas terdaftar resmi
-            Acara dilaksanakan di wilayah Indonesia</textarea>
+                        class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition"></textarea>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1.5">Dokumen wajib dilampirkan</label>
                     <textarea name="dokumen_text" rows="3"
                         placeholder="Pisahkan setiap dokumen dengan enter..."
-                        class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition">Surat proposal resmi (PDF)
-            Rencana anggaran biaya (RAB)
-            Profil organisasi</textarea>
+                        class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition"></textarea>
                 </div>
             </div>
 
@@ -168,9 +165,7 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1.5">Benefit</label>
                     <textarea name="benefit_text" rows="3"
                         placeholder="Pisahkan setiap benefit dengan enter..."
-                        class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition">Penempatan logo di materi promosi acara
-            Sebutan sponsor di pembukaan & penutupan acara
-            Laporan pasca acara (dokumentasi & data audiens)</textarea>
+                        class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition"></textarea>
                 </div>
             </div>
 
@@ -192,68 +187,7 @@
 </div>
 
 <script>
-@push('scripts')
-<script>
-    var syarats  = ['Organisasi/komunitas terdaftar resmi', 'Acara dilaksanakan di wilayah Indonesia'];
-    var doks     = ['Surat proposal resmi (PDF)', 'Rencana anggaran biaya (RAB)', 'Profil organisasi'];
-    var benefits = ['Penempatan logo di materi promosi acara', 'Sebutan sponsor di pembukaan & penutupan acara', 'Laporan pasca acara (dokumentasi & data audiens)'];
 
-    function renderList(items, containerId, removeFn) {
-        const arrayName = removeFn === 'removeSyarat' ? 'syarats' : removeFn === 'removeDok' ? 'doks' : 'benefits';
-        const el = document.getElementById(containerId);
-        el.innerHTML = '';
-        items.forEach((val, i) => {
-            el.innerHTML += `
-                <div class="flex items-center gap-2">
-                    <input type="text" value="${val}"
-                        oninput="${arrayName}[${i}] = this.value"
-                        placeholder="Isi..."
-                        class="flex-1 px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-cornflower/30 focus:border-cornflower transition">
-                    <button type="button" onclick="${removeFn}(${i})"
-                        class="p-2 text-gray-300 hover:text-red-400 hover:bg-red-50 rounded-xl transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
-                    </button>
-                </div>`;
-        });
-    }
-
-    function addSyarat()   { syarats.push('');   renderList(syarats,   'syarat-list',  'removeSyarat'); }
-    function removeSyarat(i) { syarats.splice(i, 1); renderList(syarats, 'syarat-list', 'removeSyarat'); }
-
-    function addDok()      { doks.push('');      renderList(doks,      'dok-list',     'removeDok'); }
-    function removeDok(i)  { doks.splice(i, 1);  renderList(doks,      'dok-list',     'removeDok'); }
-
-    function addBenefit()     { benefits.push('');     renderList(benefits, 'benefit-list', 'removeBenefit'); }
-    function removeBenefit(i) { benefits.splice(i, 1); renderList(benefits, 'benefit-list', 'removeBenefit'); }
-
-    renderList(syarats,  'syarat-list',  'removeSyarat');
-    renderList(doks,     'dok-list',     'removeDok');
-    renderList(benefits, 'benefit-list', 'removeBenefit');
-
-    document.querySelector('form').addEventListener('submit', function() {
-        syarats.forEach((val, i) => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = `syarat[${i}]`;
-            input.value = val;
-            this.appendChild(input);
-        });
-        doks.forEach((val, i) => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = `dokumen[${i}]`;
-            input.value = val;
-            this.appendChild(input);
-        });
-        benefits.forEach((val, i) => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = `benefit[${i}]`;
-            input.value = val;
-            this.appendChild(input);
-        });
-    });
-</script>
 
 @endsection
 
