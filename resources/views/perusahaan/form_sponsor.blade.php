@@ -198,9 +198,9 @@
 
 @push('scripts')
 <script>
-    const syarats  = ['Organisasi/komunitas terdaftar resmi', 'Acara dilaksanakan di wilayah Indonesia'];
-    const doks     = ['Surat proposal resmi (PDF)', 'Rencana anggaran biaya (RAB)', 'Profil organisasi'];
-    const benefits = ['Penempatan logo di materi promosi acara', 'Sebutan sponsor di pembukaan & penutupan acara', 'Laporan pasca acara (dokumentasi & data audiens)'];
+    var syarats  = ['Organisasi/komunitas terdaftar resmi', 'Acara dilaksanakan di wilayah Indonesia'];
+    var doks     = ['Surat proposal resmi (PDF)', 'Rencana anggaran biaya (RAB)', 'Profil organisasi'];
+    var benefits = ['Penempatan logo di materi promosi acara', 'Sebutan sponsor di pembukaan & penutupan acara', 'Laporan pasca acara (dokumentasi & data audiens)'];
 
     function renderList(items, containerId, removeFn) {
         const arrayName = removeFn === 'removeSyarat' ? 'syarats' : removeFn === 'removeDok' ? 'doks' : 'benefits';
