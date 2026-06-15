@@ -233,6 +233,30 @@
     renderList(syarats,  'syarat-list',  'removeSyarat');
     renderList(doks,     'dok-list',     'removeDok');
     renderList(benefits, 'benefit-list', 'removeBenefit');
+
+    document.querySelector('form').addEventListener('submit', function() {
+        syarats.forEach((val, i) => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = `syarat[${i}]`;
+            input.value = val;
+            this.appendChild(input);
+        });
+        doks.forEach((val, i) => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = `dokumen[${i}]`;
+            input.value = val;
+            this.appendChild(input);
+        });
+        benefits.forEach((val, i) => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = `benefit[${i}]`;
+            input.value = val;
+            this.appendChild(input);
+        });
+    });
 </script>
 @endpush
 
