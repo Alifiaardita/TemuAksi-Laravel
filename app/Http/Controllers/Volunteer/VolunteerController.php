@@ -62,34 +62,40 @@ class VolunteerController extends Controller
         );
     }
 
-    public function detail(Request $request, int $id)
-    {
-        $kegiatan = VolunteerKegiatan::with('kategori')
-            ->withCount([
-                'pendaftaran as jumlah_daftar' => fn($q) => $q->where('status', '!=', 'ditolak'),
-            ])
-            ->findOrFail($id);
+public function detail(Request $request, int $id)
+{
+    $kegiatan = VolunteerKegiatan::with('kategori')
+        ->withCount([
+            'pendaftaran as jumlah_daftar' => fn($q) => $q->where('status', '!=', 'ditolak'),
+        ])
+        ->findOrFail($id);
 
-        $sudahDaftar = false;
-        $pendaftaranSaya = null;
+    $sudahDaftar = false;
+    $pendaftaranSaya = null;
+    $user = Auth::user();
+    $userProfile = null; // ← tambah ini
 
-        if (Auth::check()) {
-            $pendaftaranSaya = VolunteerPendaftaran::where('user_id', Auth::id())
-                ->where('kegiatan_id', $id)
-                ->first();
+    if (Auth::check()) {
+        $pendaftaranSaya = VolunteerPendaftaran::where('user_id', Auth::id())
+            ->where('kegiatan_id', $id)
+            ->first();
 
-            $sudahDaftar = (bool) $pendaftaranSaya;
-        }
+        $sudahDaftar = (bool) $pendaftaranSaya;
 
-        return view(
-            'organizer.volunteer.detail',
-            compact(
-                'kegiatan',
-                'sudahDaftar',
-                'pendaftaranSaya'
-            )
-        );
+        $userProfile = \App\Models\UserProfile::where('user_id', Auth::id())->first(); // ← tambah ini
     }
+
+    return view(
+        'organizer.volunteer.detail',
+        compact(
+            'kegiatan',
+            'sudahDaftar',
+            'pendaftaranSaya',
+            'user',
+            'userProfile' // ← tambah ini
+        )
+    );
+}
 
     public function daftar(Request $request, int $id)
     {
@@ -137,7 +143,7 @@ class VolunteerController extends Controller
             'email'        => $request->email,
             'motivasi'     => $request->motivasi,
             'pengalaman'   => $request->pengalaman,
-            'status'       => 'menunggu',
+            'status'       => 'diterima',
         ]);
 
         if ($kegiatan->kuota) {

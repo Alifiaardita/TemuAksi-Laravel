@@ -39,9 +39,9 @@
                         </span>
                         <span class="px-3 py-1 rounded-full text-xs font-medium shadow-sm
                             @if($kegiatan->status == 'aktif') bg-green-500 text-white
-                            @elseif($kegiatan->status == 'penuh')
-                            @elseif($kegiatan->status == 'selesai')
-                            @else
+                            @elseif($kegiatan->status == 'penuh') bg-red-500 text-white
+                            @elseif($kegiatan->status == 'selesai') bg-gray-400 text-white
+                            @else bg-yellow-400 text-white
                             @endif">
                             {{ ucfirst($kegiatan->status) }}
                         </span>
@@ -237,84 +237,105 @@
 
                 <hr class="border-gray-100 mb-6">
 
+                @php
+                    $kuotaPenuh = $kegiatan->kuota && $kegiatan->jumlah_daftar >= $kegiatan->kuota;
+                @endphp
+
                 @if($sudahDaftar)
 
-                    <div class="bg-green-50 border border-green-100 rounded-xl p-4">
-                        <div class="flex items-center gap-2 mb-2">
+                    {{-- Sudah terdaftar: tampilkan data volunteer --}}
+                    <div class="bg-green-50 border border-green-100 rounded-xl p-4 space-y-3">
+                        <div class="flex items-center gap-2">
                             <i class="ti ti-circle-check text-green-600" aria-hidden="true"></i>
                             <p class="text-sm font-semibold text-green-800">Kamu sudah terdaftar</p>
                         </div>
-                        <p class="text-xs text-green-700">
-                            Status:
-                            <span class="font-semibold">{{ ucfirst($pendaftaranSaya->status) }}</span>
-                        </p>
+                        <div class="space-y-2 text-xs text-gray-700">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Nama</span>
+                                <span class="font-medium">{{ $pendaftaranSaya->nama_lengkap }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">No Telepon</span>
+                                <span class="font-medium">{{ $pendaftaranSaya->no_telepon }}</span>
+                            </div>
+                            @if($pendaftaranSaya->email)
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Email</span>
+                                <span class="font-medium">{{ $pendaftaranSaya->email }}</span>
+                            </div>
+                            @endif
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Status</span>
+                                <span class="font-semibold
+                                    @if($pendaftaranSaya->status == 'diterima') text-green-600
+                                    @elseif($pendaftaranSaya->status == 'ditolak') text-red-500
+                                    @else text-yellow-500
+                                    @endif">
+                                    {{ ucfirst($pendaftaranSaya->status) }}
+                                </span>
+                            </div>
+                        </div>
                     </div>
+
+                @elseif($kuotaPenuh)
+
+                    {{-- Kuota penuh --}}
+                    <div class="bg-red-50 border border-red-100 rounded-xl p-4">
+                        <div class="flex items-center gap-2 mb-1">
+                            <i class="ti ti-user-off text-red-500" aria-hidden="true"></i>
+                            <p class="text-sm font-semibold text-red-700">Kuota Penuh</p>
+                        </div>
+                        <p class="text-xs text-red-500">Pendaftaran volunteer untuk kegiatan ini sudah ditutup.</p>
+                    </div>
+                    <button disabled
+                        class="w-full mt-3 bg-gray-200 text-gray-400 py-2.5 rounded-xl text-sm font-medium cursor-not-allowed flex items-center justify-center gap-2">
+                        <i class="ti ti-send" aria-hidden="true"></i>
+                        Daftar Volunteer
+                    </button>
 
                 @else
 
+                    {{-- Form pendaftaran normal --}}
                     <form action="{{ route('volunteer.daftar', $kegiatan->id) }}" method="POST" class="space-y-3">
                         @csrf
 
                         <div>
-                            <label class="block text-xs text-gray-500 mb-1">Nama Lengkap</label>
-                            <input
-                                type="text"
-                                name="nama_lengkap"
-                                placeholder="Nama lengkap kamu"
-                                required
-                                class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-400 focus:outline-none transition"
-                            >
-                        </div>
+    <label class="block text-xs text-gray-500 mb-1">Nama Lengkap</label>
+    <input type="text" name="nama_lengkap" required
+        value="{{ $userProfile->nama_lengkap ?? '' }}"
+        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-400 focus:outline-none transition">
+</div>
 
-                        <div>
-                            <label class="block text-xs text-gray-500 mb-1">No Telepon</label>
-                            <input
-                                type="text"
-                                name="no_telepon"
-                                placeholder="08xxxxxxxxxx"
-                                required
-                                class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-400 focus:outline-none transition"
-                            >
-                        </div>
+<div>
+    <label class="block text-xs text-gray-500 mb-1">No Telepon</label>
+    <input type="text" name="no_telepon" required
+        value="{{ $userProfile->no_telepon ?? '' }}"
+        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-400 focus:outline-none transition">
+</div>
 
-                        <div>
-                            <label class="block text-xs text-gray-500 mb-1">Email</label>
-                            <input
-                                type="email"
-                                name="email"
-                                placeholder="email@kamu.com"
-                                class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-400 focus:outline-none transition"
-                            >
-                        </div>
-
-                        <div>
-                            <label class="block text-xs text-gray-500 mb-1">Motivasi</label>
-                            <textarea
-                                name="motivasi"
-                                rows="3"
-                                placeholder="Apa motivasimu mengikuti volunteer ini?"
-                                required
-                                class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-400 focus:outline-none transition resize-none"
-                            ></textarea>
-                        </div>
-
+<div>
+    <label class="block text-xs text-gray-500 mb-1">Email</label>
+    <input type="email" name="email"
+        value="{{ $user->email ?? '' }}"
+        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-400 focus:outline-none transition">
+</div>
                         <div>
                             <label class="block text-xs text-gray-500 mb-1">
-                                Pengalaman
-                                <span class="text-gray-300">(opsional)</span>
+                                motivasi
                             </label>
-                            <textarea
-                                name="pengalaman"
-                                rows="3"
-                                placeholder="Pengalaman organisasi / volunteer sebelumnya"
-                                class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-400 focus:outline-none transition resize-none"
-                            ></textarea>
+                            <textarea name="motivasi" rows="3" placeholder="Mengapa Anda ingin menjadi volunteer?"
+                                class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-400 focus:outline-none transition resize-none" required></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1">
+                                Pengalaman <span class="text-gray-300">(opsional)</span>
+                            </label>
+                            <textarea name="pengalaman" rows="3" placeholder="Pengalaman organisasi / volunteer sebelumnya"
+                                class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-400 focus:outline-none transition resize-none"></textarea>
                         </div>
 
-                        <button
-                            type="submit"
-                            class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white py-2.5 rounded-xl text-sm font-medium transition flex items-center justify-center gap-2"
-                        >
+                        <button type="submit"
+                            class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white py-2.5 rounded-xl text-sm font-medium transition flex items-center justify-center gap-2">
                             <i class="ti ti-send" aria-hidden="true"></i>
                             Daftar Volunteer
                         </button>

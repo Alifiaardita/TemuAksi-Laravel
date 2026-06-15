@@ -78,7 +78,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Lokasi</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Lokasi <span class="text-red-400">*</span></label>
                     <div class="relative">
                         <div class="pointer-events-none absolute inset-y-0 left-3 flex items-center">
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -91,6 +91,7 @@
                             name="lokasi"
                             placeholder="Kota / Alamat"
                             class="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cornflower focus:border-transparent transition"
+                            required
                         >
                     </div>
                 </div>
@@ -137,7 +138,9 @@
 
             {{-- File Upload --}}
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">File Proposal</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                    File Proposal <span class="text-red-400">*</span>
+            </label>
                 <label class="flex flex-col items-center justify-center w-full border-2 border-dashed border-gray-200 rounded-xl px-4 py-6 cursor-pointer hover:border-cornflower hover:bg-blue-50/30 transition-colors group">
                     <div class="w-10 h-10 rounded-xl bg-gray-100 group-hover:bg-cornflower/10 flex items-center justify-center mb-2 transition-colors">
                         <svg class="w-5 h-5 text-gray-400 group-hover:text-cornflower transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -146,7 +149,7 @@
                     </div>
                     <p class="text-sm text-gray-500 group-hover:text-cornflower transition-colors">Klik untuk upload file</p>
                     <p class="text-xs text-gray-400 mt-1">PDF, DOC, DOCX hingga 10MB</p>
-                    <input type="file" name="file_proposal" class="hidden">
+                    <input type="file" name="file_proposal" class="hidden" required>
                 </label>
             </div>
 

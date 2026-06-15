@@ -60,9 +60,9 @@
     </div>
 
     <div class="bg-white rounded-2xl border border-gray-100 p-4">
-        <p class="text-xs text-gray-500 mb-1">🎫 Open Sponsor</p>
+        <p class="text-xs text-gray-500 mb-1">🎫 Skema Sponsor Dibuka</p>
         <h2 class="text-3xl font-medium text-yellow-500">{{ $openSponsor }}</h2>
-        <span class="inline-block mt-2 text-xs px-2.5 py-0.5 rounded-full bg-pink-50 text-pink-600">Menunggu</span>
+        <span class="inline-block mt-2 text-xs px-2.5 py-0.5 rounded-full bg-pink-50 text-pink-600">Skema Aktif</span>
     </div>
 
 </div>
@@ -70,13 +70,13 @@
 {{-- CHARTS --}}
 <div class="grid lg:grid-cols-2 gap-4 mb-6">
     <div class="bg-white rounded-2xl border border-gray-100 p-5">
-        <h2 class="text-base font-medium mb-4">Volunteer dibuka per bulan</h2>
+        <h2 class="text-base font-medium mb-4">Kegiatan Volunteer dibuka per bulan</h2>
         <div style="position: relative; height: 250px;">
             <canvas id="barChart"></canvas>
         </div>
     </div>
     <div class="bg-white rounded-2xl border border-gray-100 p-5">
-        <h2 class="text-base font-medium mb-4">Komposisi akun</h2>
+        <h2 class="text-base font-medium mb-4">Status Proposal</h2>
         <div style="position: relative; height: 250px;">
             <canvas id="donutChart"></canvas>
         </div>
@@ -90,12 +90,25 @@
     <div class="bg-white rounded-2xl border border-gray-100 p-5">
         <h2 class="text-base font-medium mb-3">👤 Semua akun</h2>
         <div class="flex gap-2 mb-4">
-            <span class="text-xs px-3 py-1 rounded-full bg-blue-50 text-blue-600">
-                {{ $users->where('role','!=','perusahaan')->count() }} Organizer
-            </span>
-            <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-gray-600">
-                {{ $users->where('role','perusahaan')->count() }} Perusahaan
-            </span>
+            <a href="{{ route('admin.dashboard', ['role' => 'organizer']) }}"
+            class="text-xs px-3 py-1 rounded-full {{ $roleFilter == 'organizer' ? 'bg-blue-600 text-white' : 'bg-blue-50 text-blue-600' }}">
+                {{ $jumlahOrganizer }} Organizer
+            </a>
+
+            <a href="{{ route('admin.dashboard', ['role' => 'perusahaan']) }}"
+            class="text-xs px-3 py-1 rounded-full {{ $roleFilter == 'perusahaan' ? 'bg-red-500 text-white' : 'bg-red-100 text-gray-600' }}">
+                {{ $jumlahPerusahaan }} Perusahaan
+            </a>
+
+            <a href="{{ route('admin.dashboard', ['role' => 'admin']) }}"
+            class="text-xs px-3 py-1 rounded-full {{ $roleFilter == 'admin' ? 'bg-green-600 text-white' : 'bg-green-100 text-green-600' }}">
+                {{ $jumlahAdmin }} Admin 
+            </a>
+
+            <a href="{{ route('admin.dashboard') }}"
+            class="text-xs px-3 py-1 rounded-full bg-slate-100 text-slate-600">
+                Semua
+            </a>
         </div>
         <div class="space-y-2 max-h-80 overflow-y-auto">
             @foreach($users as $user)
@@ -199,13 +212,20 @@ document.addEventListener('DOMContentLoaded', function () {
     new Chart(document.getElementById('donutChart'), {
         type: 'doughnut',
         data: {
-            labels: ['Organizer', 'Perusahaan'],
+            labels: ['Terkirim', 'Pendanaan', 'Selesai', 'Ditolak'],
             datasets: [{
                 data: [
-                    {{ $users->where('role','organizer')->count() }},
-                    {{ $users->where('role','perusahaan')->count() }}
+                    {{ $proposalTerkirim }},
+                    {{ $proposalPendanaan }},
+                    {{ $proposalSelesai }},
+                    {{ $proposalDitolak }}
                 ],
-                backgroundColor: ['#4a6cf7', '#a5d6a7'],
+                backgroundColor: [
+                    '#facc15', // kuning
+                    '#4a6cf7', // biru
+                    '#a5d6a7', // hijau
+                    '#ef4444'  // merah
+                ],
                 borderWidth: 0,
                 hoverOffset: 4
             }]

@@ -64,7 +64,7 @@
     <div class="bg-white p-6 rounded-2xl shadow mb-6">
 
         <h2 class="text-lg font-semibold mb-4">
-            📊 Dana Disalurkan (2026)
+            📊 Dana Disalurkan 
         </h2>
 
         <table class="w-full text-left">
