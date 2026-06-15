@@ -196,7 +196,7 @@
     </div>
 </div>
 
-@endsection
+<script>
 @push('scripts')
 <script>
     var syarats  = ['Organisasi/komunitas terdaftar resmi', 'Acara dilaksanakan di wilayah Indonesia'];
@@ -259,5 +259,6 @@
         });
     });
 </script>
-@endpush
+
+@endsection
 
