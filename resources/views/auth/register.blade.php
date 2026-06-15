@@ -73,7 +73,7 @@
             <div id="form-individu" class="hidden">
                 <form method="POST" action="{{ route('register') }}" class="space-y-4">
                     @csrf
-                    <input type="hidden" name="role" value="individu">
+                    <input type="hidden" name="role" value="organizer">
 
                     <div>
                         <label class="block text-xs font-semibold text-gray-600 mb-1.5">Nama Lengkap</label>
