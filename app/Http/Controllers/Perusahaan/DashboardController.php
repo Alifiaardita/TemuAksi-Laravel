@@ -100,9 +100,9 @@ public function sponsorIndex()
             'tanggal_buka'  => 'nullable|date',
             'tanggal_tutup' => 'nullable|date|after_or_equal:tanggal_buka',
             'wilayah'  => 'nullable|string|max:100',
-            'syarat'   => 'nullable|array',
-            'dokumen'  => 'nullable|array',
-            'benefit'  => 'nullable|array',
+            'syarat_text'   => 'nullable|string',
+            'dokumen_text'  => 'nullable|string',
+            'benefit_text'  => 'nullable|string',
         ]);
 
         Sponsor::create([
@@ -117,9 +117,9 @@ public function sponsorIndex()
             'tanggal_buka'  => $request->tanggal_buka,
             'tanggal_tutup' => $request->tanggal_tutup,
             'wilayah'  => $request->wilayah,
-            'syarat'   => $request->syarat,
-            'dokumen'  => $request->dokumen,
-            'benefit'  => $request->benefit,
+            'syarat'   => array_values(array_filter(explode("\n", str_replace("\r", "", $request->syarat_text)))),
+            'dokumen'  => array_values(array_filter(explode("\n", str_replace("\r", "", $request->dokumen_text)))),
+            'benefit'  => array_values(array_filter(explode("\n", str_replace("\r", "", $request->benefit_text)))),
         ]);
 
         return redirect()
